@@ -142,7 +142,7 @@ function renderGrid() {
             itemDiv.innerHTML = `
                 <span class="stamp-no">No.${s.id}</span>
                 <div class="lock-icon">
-                    <img src="../images/archive_lockicon.png" style="width: 114px; height: auto;" alt="鍵アイコン">
+                    <img src="images/archive_lockicon.png" style="width: 114px; height: auto;" alt="鍵アイコン">
                 </div>
             `;
         }
