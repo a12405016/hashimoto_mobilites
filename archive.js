@@ -7,7 +7,7 @@ const SCULPTURES = [
     {
         id: 1,
         name: "リニア改札の記憶",
-        image: "../images/archive-hashimoto/1LinearGate.png",
+        image: "images/image01.png",
         area: "2040年の橋本",
         author: "リニア中央新幹線開発チーム",
         story: "2040年、リニア中央新幹線の開通により品川まで一瞬で繋がった橋本駅。地下深くの巨大ホームに降り立つと、乗客たちは旅の楽しみに胸を躍らせます。未来の会話記録に残されていたのは、時速500kmの車内で味わう限定の「べんとう」についての楽しげな思い出でした。",
