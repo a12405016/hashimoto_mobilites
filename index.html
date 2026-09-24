@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>橋本未来の会話記録</title>
+    <meta name="robots" content="noindex">
+    <link rel="stylesheet" href="archive.css">
+</head>
+
+<body>
+    <main>
+        <!-- <header id="header0">
+            <h1><img src="../images/headericon.png" alt="八王子市彫刻巡りスタンプラリー"></h1>
+        </header> -->
+        <div class="area-banner">2040年の橋本</div>
+
+        <article id="article0">
+            <div class="collection-header">
+                <h2 class="collection-title">コレクション作品</h2>
+                <span class="collection-count" id="progressCount">0 / 7</span>
+            </div>
+
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="progressFill" style="width: 0%;"></div>
+            </div>
+
+            <div class="stamp-grid" id="grid">
+                <!-- JSで動的に生成されます -->
+            </div>
+        </article>
+
+        <!-- ボタンエリア -->
+        <div class="button-group">
+            <a href="https://www.yamaha-motor.co.jp/mobilites/" target="_blank" class="btn-outline">
+                <span class="btn-main-text">YAMAHA Mobilit.E.S 公式サイト<span class="arrow-icon">↗</span></span>
+                <span class="btn-sub-text">外部サイトにアクセスします</span>
+            </a>
+
+            <a href="https://forms.gle/9RTJ66fP92t5uNCx6" class="btn-outline" target="_blank">
+                <span class="btn-main-text">2040年の記憶を記録する<span class="arrow-icon">↗</span></span>
+            </a>
+        </div>
+    </main>
+
+    <!-- 背景装飾 -->
+    <div class="bg-decorations">
+        <!-- <img src="../images/header_gradation.png" alt="" class="decor-img header-grad"> -->
+    </div>
+
+    <!-- トースト通知 -->
+    <div id="toast" class="toast"></div>
+
+    <!-- ポップアップ（添付画像のデザインを再現） -->
+    <div id="popupOverlay" class="popup-overlay" onclick="closePopup()"></div>
+    <div id="popup" class="popup-content">
+        <button class="popup-close-x" onclick="closePopup()">✕</button>
+
+        <div class="popup-header">
+            <span id="popNo" class="popup-no">No.1</span>
+            <h3 id="popTitle" class="popup-title">将軍の孫</h3>
+        </div>
+
+        <div class="popup-img-wrapper">
+            <img id="popImg" src="" alt="" class="popup-img">
+        </div>
+
+        <div class="popup-info">
+            <div class="info-group">
+                <span class="info-label">エリア</span>
+                <div id="popArea" class="info-val">八王子駅エリア</div>
+            </div>
+            <div class="info-group">
+                <span class="info-label">作者</span>
+                <div id="popAuthor" class="info-val">ここに作者名が入ります</div>
+            </div>
+            <div class="info-group no-border">
+                <span class="info-label">架空のストーリー</span>
+                <div class="story-box">
+                    <p id="popStory"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="button-group popup-buttons">
+            <a id="popLink" href="#" target="_blank" class="btn-outline">
+                <span class="btn-main-text">YAMAHA Mobilit.E.S 公式サイト<span class="arrow-icon">↗</span></span>
+                <span class="btn-sub-text">外部サイトにアクセスします</span>
+            </a>
+            <button class="btn-outline btn-close" onclick="closePopup()">
+                <span class="btn-main-text">閉じる</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- JavaScriptファイルの読み込み -->
+    <script src="archive.js"></script>
+</body>
+
+</html>
