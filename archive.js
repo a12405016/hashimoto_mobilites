@@ -7,7 +7,7 @@ const SCULPTURES = [
     {
         id: 1,
         name: "リニア改札の記憶",
-        image: "images/image01.png",
+        image: "images/favicon.png",
         area: "2040年の橋本",
         author: "リニア中央新幹線開発チーム",
         story: "2040年、リニア中央新幹線の開通により品川まで一瞬で繋がった橋本駅。地下深くの巨大ホームに降り立つと、乗客たちは旅の楽しみに胸を躍らせます。未来の会話記録に残されていたのは、時速500kmの車内で味わう限定の「べんとう」についての楽しげな思い出でした。",
@@ -17,7 +17,7 @@ const SCULPTURES = [
     {
         id: 2,
         name: "Mobilit.E.Sと風",
-        image: "../images/archive-hashimoto/2Mobilites.png",
+        image: "images/favicon.png",
         area: "2040年の橋本",
         author: "YAMAHA Mobilit.E.S",
         story: "リニアを降りた人々を待ち受けるのは、静かに街を駆けぬける次世代モビリティ。心地よい風を感じながら橋本の広大なプロムナードを進む中、車内スピーカーからは流れる「おんがく」が、旅人たちの会話をやさしく包み込んでいました。",
@@ -27,7 +27,7 @@ const SCULPTURES = [
     {
         id: 3,
         name: "緑地公園のポニー",
-        image: "../images/archive-hashimoto/3PonyPark.png",
+        image: "images/favicon.png",
         area: "2040年の橋本",
         author: "緑区都市デザイン課",
         story: "高層ビルと自然が共存する未来の橋本。モビリティで少し離れた公園に向かうと、子どもたちに愛されるポニーの姿があります。会話記録には、手のひらに乗せた「にんじん」をポニーがおいしそうに食べた、あたたかな午後の出来事が記録されています。",
@@ -37,7 +37,7 @@ const SCULPTURES = [
     {
         id: 4,
         name: "未来都市のタイムカプセル",
-        image: "../images/archive-hashimoto/4TimeCapsule.png",
+        image: "images/favicon.png",
         area: "2040年の橋本",
         author: "橋本歴史保存会",
         story: "駅前広場の光る時計台の足元には、リニア工事が始まった頃の記憶を納めたタイムカプセルが眠っています。会話記録の少女は、20年前の自分から届いた「てがみ」を抱きしめ、変わりゆく街並みを感慨深そうに見つめていました。",
@@ -47,7 +47,7 @@ const SCULPTURES = [
     {
         id: 5,
         name: "相模川の風鈴モニュメント",
-        image: "../images/archive-hashimoto/5WindMonument.png",
+        image: "images/favicon.png",
         area: "2040年の橋本",
         author: "環境アートプロジェクト",
         story: "相模川からの爽やかな風を受けて発電するガラス製のモニュメント。夕暮れ時になると風に乗って繊細な音色を響かせます。未来の人々は、まるで「ふうりん」のようなその美しい涼音に耳を澄ませながら、日々の疲れを癒やしていました。",
@@ -57,7 +57,7 @@ const SCULPTURES = [
     {
         id: 6,
         name: "リニア展望テラス",
-        image: "../images/archive-hashimoto/6LinearTerrace.png",
+        image: "images/favicon.png",
         area: "2040年の橋本",
         author: "橋本スカイテラス設計室",
         story: "地下から地上へ飛び出すリニアを一望できる絶景のテラスカフェ。会話記録に残されたふたりの会話では、湯気が立つ香ばしい「こーひー」を飲みながら、光の矢のように走り去る列車を眺める時間が何よりの贅沢だと語られています。",
@@ -67,7 +67,7 @@ const SCULPTURES = [
     {
         id: 7,
         name: "ホログラムの記憶碑",
-        image: "../images/archive-hashimoto/7HologramMonument.png",
+        image: "images/favicon.png",
         area: "2040年の橋本",
         author: "2040未来ビジョン",
         story: "街角にたたずむ立体ホログラムの伝言板。過去と未来の想いを繋ぐこの場所で、ある人は大切な人から贈られた「ゆびわ」の思い出を立体映像として再現し、未来の橋本の空の下で静かに微笑んでいました。",
@@ -142,7 +142,7 @@ function renderGrid() {
             itemDiv.innerHTML = `
                 <span class="stamp-no">No.${s.id}</span>
                 <div class="lock-icon">
-                    <img src="images/jiku.png" style="width: 114px; height: auto;" alt="鍵アイコン">
+                    <img src="images/timeparad2.gif" style="width: 114px; height: auto;" alt="時空の穴のアイコン">
                 </div>
             `;
         }

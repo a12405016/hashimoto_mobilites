@@ -6,7 +6,7 @@
     /* ベースの文字色を白に */
     --white: #fff;
     --mobileites: #0D8B80;
-    --primary: #4A3E85;
+    --primary: #50459B;
     /* テーマカラーを紫系に調整 */
 
     /* CRT背景用設定 */
@@ -79,6 +79,8 @@ main {
     z-index: 0;
     background: linear-gradient(180deg, #BDF2FC 0%, #8469D3 50.96%, #02040C 100%);
     animation: jitter .4s steps(2) infinite;
+    width: 410px;
+    margin: 0 auto;
 }
 
 .fx {
@@ -150,11 +152,11 @@ main {
 
 @keyframes roll {
     from {
-        transform: translateY(-110%);
+        transform: translateY(400%);
     }
 
     to {
-        transform: translateY(400%);
+        transform: translateY(-110%);
     }
 }
 
@@ -248,21 +250,24 @@ article {
 }
 
 /* =========================================
-   スタンプグリッド (完成イメージに寄せて中央寄せ・回り込み)
+   スタンプグリッド
 ========================================= */
 .stamp-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid;
+    /* 全体を6列のグリッドとして定義します */
+    grid-template-columns: repeat(6, 1fr);
     gap: 12px;
     margin-bottom: 40px;
+    max-width: 360px;
+    /* アイテムが大きくなりすぎないように制限 */
+    margin-inline: auto;
+    /* グリッド全体を中央揃え */
 }
 
 .stamp-item {
     position: relative;
-    width: calc(33.333% - 8px);
-    /* 3列換算 */
-    max-width: 110px;
+    width: 100%;
+    /* calcを削除し、Gridの枠幅に合わせる */
     aspect-ratio: 1 / 1;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
@@ -272,8 +277,46 @@ article {
     align-items: center;
     justify-content: center;
     background-color: #1a1a2e;
-    /* 鍵盤背景を少し暗く */
 }
+
+/* 2列・3列・2列に配置するための位置指定 (各アイテムが2列分を占有します) */
+.stamp-item:nth-child(1) {
+    grid-column: 2 / span 2;
+}
+
+/* 1段目: 左 */
+.stamp-item:nth-child(2) {
+    grid-column: 4 / span 2;
+}
+
+/* 1段目: 右 */
+
+.stamp-item:nth-child(3) {
+    grid-column: 1 / span 2;
+}
+
+/* 2段目: 左 */
+.stamp-item:nth-child(4) {
+    grid-column: 3 / span 2;
+}
+
+/* 2段目: 中央 */
+.stamp-item:nth-child(5) {
+    grid-column: 5 / span 2;
+}
+
+/* 2段目: 右 */
+
+.stamp-item:nth-child(6) {
+    grid-column: 2 / span 2;
+}
+
+/* 3段目: 左 */
+.stamp-item:nth-child(7) {
+    grid-column: 4 / span 2;
+}
+
+/* 3段目: 右 */
 
 .stamp-item.unlocked {
     background-color: #fff;
@@ -311,7 +354,7 @@ article {
     flex-direction: column;
     gap: 16px;
     padding: 0 24px;
-    margin: 10px 0 40px 0;
+    margin: 0 0 40px 0;
     box-sizing: border-box;
     position: relative;
     z-index: 10;
@@ -323,11 +366,11 @@ article {
     align-items: center;
     justify-content: center;
     width: 100%;
-    padding: 16px;
+    padding: 13px;
     border: none;
     border-radius: 50px;
     background-color: #ffffff;
-    color: #3b2a75;
+    color: #50459B;
     /* 濃い紫 */
     text-decoration: none;
     box-sizing: border-box;
@@ -341,7 +384,7 @@ article {
 }
 
 .btn-main-text {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: bold;
     display: flex;
     align-items: center;
@@ -355,4 +398,182 @@ article {
     color: #666;
 }
 
-/* 以降、ポップアップなどのCSSは既存のまま残してください */
+/* =========================================
+   トースト通知
+========================================= */
+.toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    padding: 12px 24px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: bold;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease, transform 0.3s ease;
+    z-index: 1000;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* =========================================
+   ポップアップ（全体と背景）
+========================================= */
+.popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 100;
+}
+
+.popup-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.popup-content {
+    position: fixed;
+    bottom: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(100%, var(--content-width));
+    max-height: 85vh;
+    max-height: 85dvh;
+    overflow-y: auto;
+    background: #e9e7e0 url("../images/map_backimage.png") center top / cover;
+    border-radius: 20px 20px 0 0;
+    padding: 30px 24px;
+    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.2);
+    transition: bottom 0.3s cubic-bezier(0.1, 0.8, 0.2, 1);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+}
+
+.popup-content.show {
+    transform: translate(-50%, 0);
+    bottom: 0;
+}
+
+.popup-close-x {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #555;
+    cursor: pointer;
+}
+
+@media (max-width: 480px) {
+    .popup-content {
+        top: auto;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        border-radius: 20px 20px 0 0;
+        transform: translateY(100%);
+        transition: transform 0.3s ease-out;
+    }
+
+    .popup-content.show {
+        transform: translateY(0);
+    }
+}
+
+/* =========================================
+   ポップアップ（コンテンツ詳細）
+========================================= */
+.popup-info .info-group {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #79685b;
+}
+
+.popup-info .info-group.no-border {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.popup-header {
+    margin-bottom: 20px;
+}
+
+.popup-no {
+    font-size: 12px;
+    font-weight: bold;
+    color: #333;
+}
+
+.popup-title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 4px;
+    color: #111;
+}
+
+.popup-img-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.popup-img {
+    width: 250px;
+    height: 250px;
+    object-fit: contain;
+    background: transparent;
+    border: 6px solid #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+}
+
+.info-group {
+    padding: 12px 0;
+    border-bottom: 1px solid #c4c4c4;
+}
+
+.info-group.no-border {
+    border-bottom: none;
+}
+
+.info-label {
+    font-size: 13px;
+    font-weight: bold;
+    color: #333;
+}
+
+.info-val {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 4px;
+    color: #111;
+}
+
+.story-box {
+    margin-top: 8px;
+    padding: 14px 16px;
+    background-color: #ffffff;
+    border: 1px solid #79685b;
+    border-radius: 10px;
+    box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.25);
+    box-sizing: border-box;
+}
+
+.story-box p {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #1a1a1a;
+    margin: 0;
+}
