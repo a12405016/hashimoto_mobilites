@@ -7,23 +7,36 @@
     <title>橋本未来の会話記録</title>
     <meta name="robots" content="noindex">
     <link rel="stylesheet" href="archive.css">
+    <meta name="keywords" content="2040年, 橋本未来, 会話記録, アーカイブ, YAMAHA Mobilit.E.S">
+    <meta name="author" content="2040年橋本会話記録">
+    <meta name="description" content="2040年橋本会話記録のアーカイブページです。">
+    <link rel="icon" type="image/png" href="images/jiku.png">
 </head>
 
 <body>
+    <!-- CRT背景エフェクト -->
+    <div class="crt-bg">
+        <div class="fx fx-dots"></div>
+        <div class="fx fx-scan"></div>
+        <div class="fx fx-roll"></div>
+        <div class="fx fx-noise"></div>
+        <div class="fx fx-vignette"></div>
+    </div>
+
     <main>
-        <!-- <header id="header0">
-            <h1><img src="../images/headericon.png" alt="八王子市彫刻巡りスタンプラリー"></h1>
-        </header> -->
         <div class="area-banner">2040年の橋本</div>
 
         <article id="article0">
-            <div class="collection-header">
-                <h2 class="collection-title">コレクション作品</h2>
-                <span class="collection-count" id="progressCount">0 / 7</span>
-            </div>
+            <!-- すりガラス風のパネルで囲む -->
+            <div class="collection-panel">
+                <div class="collection-header">
+                    <h2 class="collection-title">コレクション作品</h2>
+                    <span class="collection-count" id="progressCount">0 / 7</span>
+                </div>
 
-            <div class="progress-bar-container">
-                <div class="progress-bar-fill" id="progressFill" style="width: 0%;"></div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar-fill" id="progressFill" style="width: 0%;"></div>
+                </div>
             </div>
 
             <div class="stamp-grid" id="grid">
@@ -45,14 +58,12 @@
     </main>
 
     <!-- 背景装飾 -->
-    <div class="bg-decorations">
-        <!-- <img src="../images/header_gradation.png" alt="" class="decor-img header-grad"> -->
-    </div>
+    <div class="bg-decorations"></div>
 
     <!-- トースト通知 -->
     <div id="toast" class="toast"></div>
 
-    <!-- ポップアップ（添付画像のデザインを再現） -->
+    <!-- ポップアップ（既存のまま） -->
     <div id="popupOverlay" class="popup-overlay" onclick="closePopup()"></div>
     <div id="popup" class="popup-content">
         <button class="popup-close-x" onclick="closePopup()">✕</button>
@@ -94,7 +105,6 @@
         </div>
     </div>
 
-    <!-- JavaScriptファイルの読み込み -->
     <script src="archive.js"></script>
 </body>
 

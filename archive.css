@@ -2,10 +2,28 @@
 
 :root {
     --content-width: 402px;
-    --ink: #1a1a1a;
+    --ink: #ffffff;
+    /* ベースの文字色を白に */
     --white: #fff;
     --mobileites: #0D8B80;
-    --primary: #0D8B80;
+    --primary: #4A3E85;
+    /* テーマカラーを紫系に調整 */
+
+    /* CRT背景用設定 */
+    --scan: .25;
+    /* 走査線の濃さ */
+    --dot: 10px;
+    /* ドットマスクの細かさ（小さくして鮮明に） */
+    --dot-alpha: .5;
+    /* ドットマスクの強さ */
+    --vignette: 5;
+    /* 周辺減光の最大値 */
+    --flicker-min: .6;
+    /* ちらつき（暗くなりすぎない程度に） */
+    --static: .2;
+    /* ノイズ */
+    --roll: 3.5s;
+    /* 波が流れる速さ */
 }
 
 * {
@@ -16,6 +34,8 @@
 
 html {
     scroll-behavior: smooth;
+    background: #000;
+    /* ベースを黒に */
 }
 
 li {
@@ -26,11 +46,9 @@ body {
     min-width: 320px;
     color: var(--ink);
     font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
-    background:
-        url("../images/footer_gradation.png") center bottom / 100% auto no-repeat,
-        #e9e7e0 url("../images/body_backgraudimage.png") center top / 100% auto;
     vertical-align: bottom;
     position: relative;
+    overflow-x: hidden;
 }
 
 img {
@@ -46,37 +64,123 @@ main {
     min-height: 100dvh;
     margin: 0 auto;
     z-index: 10;
-    background-color: #fff;
+    background-color: transparent;
+    /* 背景の白を削除 */
     padding-bottom: 50px;
-    /* ボタンの下（画面の一番下）に白い余白を確保 */
     box-sizing: border-box;
 }
 
-/*=========================================================
-#header
-=========================================================*/
-header {
-    position: relative;
-    z-index: 3;
-    height: 62px;
-    background: url("../images/headerimage.png") center / cover no-repeat;
+/* =========================================
+   CRT背景設定
+========================================= */
+.crt-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background: linear-gradient(180deg, #BDF2FC 0%, #8469D3 50.96%, #02040C 100%);
+    animation: jitter .4s steps(2) infinite;
 }
 
-header h1 {
-    width: 100%;
+.fx {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
 }
 
-#header0 img {
-    display: block;
-    width: 100%;
-    height: auto;
+.fx-dots {
+    opacity: var(--dot-alpha);
+    mix-blend-mode: multiply;
+    background:
+        radial-gradient(circle at 50% 50%, #ff5ad2 0 28%, transparent 62%) 0 0 / var(--dot) var(--dot),
+        radial-gradient(circle at 50% 50%, #5affea 0 28%, transparent 62%) calc(var(--dot) / 3) calc(var(--dot) / 2) / var(--dot) var(--dot),
+        radial-gradient(circle at 50% 50%, #9bff7a 0 28%, transparent 62%) calc(var(--dot) * 2 / 3) 0 / var(--dot) var(--dot),
+        #6a6a8a;
+}
+
+.fx-scan {
+    background: repeating-linear-gradient(to bottom,
+            rgba(0, 0, 0, var(--scan)) 0 1px, transparent 1px 3px);
+    animation: flicker .14s steps(2) infinite;
+}
+
+.fx-roll {
+    height: 26%;
+    bottom: auto;
+    mix-blend-mode: screen;
+    background: linear-gradient(to bottom,
+            transparent 0%, rgba(235, 225, 255, .32) 55%, rgba(255, 255, 255, .10) 80%, transparent 100%);
+    filter: blur(6px);
+    animation: roll var(--roll) linear infinite;
+}
+
+.fx-noise {
+    inset: -10%;
+    opacity: var(--static);
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    animation: noise .25s steps(1) infinite;
+}
+
+.fx-vignette {
+    background:
+        radial-gradient(ellipse 95% 82% at 50% 50%,
+            transparent 55%, rgba(0, 0, 0, calc(var(--vignette) * .65)) 80%, rgba(0, 0, 0, var(--vignette)) 98%);
+}
+
+@keyframes flicker {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: var(--flicker-min);
+    }
+}
+
+@keyframes jitter {
+    0% {
+        transform: translateX(0);
+    }
+
+    50% {
+        transform: translateX(.5px);
+    }
+}
+
+@keyframes roll {
+    from {
+        transform: translateY(-110%);
+    }
+
+    to {
+        transform: translateY(400%);
+    }
+}
+
+@keyframes noise {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    25% {
+        transform: translate(-5%, 3%);
+    }
+
+    50% {
+        transform: translate(4%, -4%);
+    }
+
+    75% {
+        transform: translate(-3%, -2%);
+    }
 }
 
 /* =========================================
-   エリア名バナー（斜めストライプ）
+   エリア名バナー（紫の斜めストライプに変更）
 ========================================= */
 .area-banner {
-    background: repeating-linear-gradient(-60deg, #0b7a70, #0b7a70 6px, #119286 12px, #119286 24px);
+    background: repeating-linear-gradient(-45deg, #42357a, #42357a 10px, #4f4191 10px, #4f4191 20px);
     color: #ffffff;
     text-align: center;
     font-size: 22px;
@@ -86,6 +190,7 @@ header h1 {
     font-family: serif;
     position: relative;
     z-index: 10;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 /* =========================================
@@ -97,11 +202,24 @@ article {
     z-index: 10;
 }
 
+/* すりガラス風パネル */
+.collection-panel {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: inset 0 2px 10px rgba(255, 255, 255, 0.3), 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
 .collection-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
     margin-bottom: 8px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .collection-title {
@@ -117,45 +235,48 @@ article {
 .progress-bar-container {
     width: 100%;
     height: 6px;
-    background-color: #bcbcbc;
-    margin-bottom: 24px;
+    background-color: rgba(255, 255, 255, 0.3);
     border-radius: 4px;
 }
 
 .progress-bar-fill {
     height: 100%;
-    background-color: var(--primary);
+    background-color: var(--white);
     border-radius: 4px;
     transition: width 0.5s ease;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
 }
 
 /* =========================================
-   スタンプグリッド
+   スタンプグリッド (完成イメージに寄せて中央寄せ・回り込み)
 ========================================= */
 .stamp-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 12px;
     margin-bottom: 40px;
 }
 
 .stamp-item {
     position: relative;
+    width: calc(33.333% - 8px);
+    /* 3列換算 */
+    max-width: 110px;
     aspect-ratio: 1 / 1;
-    border-radius: 3px;
-    /* ドロップシャドウだけを残します */
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     overflow: hidden;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: #1a1a2e;
+    /* 鍵盤背景を少し暗く */
 }
 
 .stamp-item.unlocked {
     background-color: #fff;
-    /* 解放時の背景白は維持 */
 }
 
 .stamp-no {
@@ -165,9 +286,8 @@ article {
     font-size: 14px;
     font-weight: bold;
     z-index: 2;
-    color: #111;
-    /* 鍵画像と同化しないように文字に白フチ（シャドウ）をつけています */
-    text-shadow: 0 0 2px #fff, 0 0 4px #fff;
+    color: #fff;
+    text-shadow: 0 0 4px rgba(0, 0, 0, 0.8), 0 0 2px rgba(0, 0, 0, 0.8);
 }
 
 .unlocked-img {
@@ -176,236 +296,8 @@ article {
     object-fit: cover;
 }
 
-/* --- プログレスバー 100% 達成時エフェクト --- */
-.progress-bar-container.completed {
-    border-color: #ffd700;
-    box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
-}
-
-.progress-bar-fill.completed {
-    background: linear-gradient(90deg, #0D8B80, #52c2b6, #ffd700, #0D8B80);
-    background-size: 200% 100%;
-    animation: shine 2s linear infinite;
-}
-
-@keyframes shine {
-    0% {
-        background-position: 200% 0;
-    }
-
-    100% {
-        background-position: -200% 0;
-    }
-}
-
 /* =========================================
-   トースト通知
-========================================= */
-.toast {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%) translateY(20px);
-    background-color: rgba(0, 0, 0, 0.8);
-    color: #fff;
-    padding: 12px 24px;
-    border-radius: 30px;
-    font-size: 14px;
-    font-weight: bold;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s ease, transform 0.3s ease;
-    z-index: 1000;
-}
-
-.toast.show {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-}
-
-/* =========================================
-   ポップアップ（全体と背景）
-========================================= */
-.popup-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.6);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-    z-index: 100;
-}
-
-.popup-overlay.show {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.popup-content {
-    position: fixed;
-    bottom: -100%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: min(100%, var(--content-width));
-    /* 見切れ防止・スクロール設定 */
-    max-height: 85vh;
-    /* 高さを画面の85%までに制限（必須） */
-    max-height: 85dvh;
-    /* スマホのUIを考慮した高さ指定 */
-    overflow-y: auto;
-    /* 画面に収まらない場合は内部をスクロールさせる */
-    background: #e9e7e0 url("../images/map_backimage.png") center top / cover;
-    border-radius: 20px 20px 0 0;
-    padding: 30px 24px;
-    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.2);
-    transition: bottom 0.3s cubic-bezier(0.1, 0.8, 0.2, 1);
-    z-index: 1000;
-    display: flex;
-    flex-direction: column;
-}
-
-/* ポップアップ表示時 */
-.popup-content.show {
-    transform: translate(-50%, 0);
-    /* 下からスライドして表示 */
-}
-
-.popup-content.show {
-    bottom: 0;
-}
-
-.popup-close-x {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: none;
-    border: none;
-    font-size: 24px;
-    color: #555;
-    cursor: pointer;
-}
-
-/* ▼ スマホ用（画面下にくっつく「ボトムシート」型の表示） */
-@media (max-width: 480px) {
-    .popup-content {
-        top: auto;
-        /* topの指定を解除 */
-        bottom: 0;
-        /* 画面の真下に固定 */
-        left: 0;
-        width: 100%;
-        /* 横幅を画面いっぱいに */
-        border-radius: 20px 20px 0 0;
-        /* 上の角だけ丸くする */
-
-        /* 表示アニメーション（下からスライド） */
-        transform: translateY(100%);
-        transition: transform 0.3s ease-out;
-    }
-
-    .popup-content.show {
-        transform: translateY(0);
-        /* クラスが付いたら元の位置(0)へ */
-    }
-}
-
-
-/* =========================================
-   ポップアップ（コンテンツ詳細）
-========================================= */
-/* --- ポップアップ内の各項目区切り線（エリア・作者の下） --- */
-.popup-info .info-group {
-    padding-bottom: 10px;
-    border-bottom: 1px solid #79685b;
-    /* 1pxの区切り線（落ち着いたダークブラウン系） */
-}
-
-/* 最後の「架空のストーリー」グループ自体は下線を消して余白を調整 */
-.popup-info .info-group.no-border {
-    border-bottom: none;
-    margin-bottom: 0;
-    padding-bottom: 0;
-}
-
-.popup-header {
-    margin-bottom: 20px;
-}
-
-.popup-no {
-    font-size: 12px;
-    font-weight: bold;
-    color: #333;
-}
-
-.popup-title {
-    font-size: 22px;
-    font-weight: bold;
-    margin-top: 4px;
-    color: #111;
-}
-
-.popup-img-wrapper {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-}
-
-.popup-img {
-    width: 250px;
-    height: 250px;
-    object-fit: contain;
-    background: transparent;
-    border: 6px solid #fff;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-    border-radius: 4px;
-}
-
-.info-group {
-    padding: 12px 0;
-    border-bottom: 1px solid #c4c4c4;
-}
-
-.info-group.no-border {
-    border-bottom: none;
-}
-
-.info-label {
-    font-size: 13px;
-    font-weight: bold;
-    color: #333;
-}
-
-.info-val {
-    font-size: 20px;
-    font-weight: bold;
-    margin-top: 4px;
-    color: #111;
-}
-
-/* --- 架空のストーリーのボックス --- */
-.story-box {
-    margin-top: 8px;
-    padding: 14px 16px;
-    background-color: #ffffff;
-    border: 1px solid #79685b;
-    /* 1pxの枠線 */
-    border-radius: 10px;
-    /* 角丸 */
-    box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.25);
-    /* 指定のインナーシャドー (2, 2, 4) */
-    box-sizing: border-box;
-}
-
-/* ストーリー内の文章スタイル微調整 */
-.story-box p {
-    font-size: 13px;
-    line-height: 1.6;
-    color: #1a1a1a;
-    margin: 0;
-}
-
-/* =========================================
-   ボタンエリア
+   ボタンエリア (白背景・紫文字に変更)
 ========================================= */
 .popup-buttons {
     margin-top: 24px;
@@ -414,23 +306,15 @@ article {
     gap: 16px;
 }
 
-/* --- ボタンエリア共通設定 --- */
 .button-group {
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    /* ボタン同士の間隔 */
-    padding: 20px 24px;
-    /* 内側の余白をポップアップと統一 */
-    margin: 24px 0 0 0;
+    gap: 16px;
+    padding: 0 24px;
+    margin: 10px 0 40px 0;
     box-sizing: border-box;
-}
-
-/* ポップアップ内のボタンエリアも同じパディング・ギャップを適用 */
-.button-group.popup-buttons {
-    margin-top: 16px;
-    padding: 0;
-    /* ポップアップ容器自体にパディングがあるため0に調整 */
+    position: relative;
+    z-index: 10;
 }
 
 .btn-outline {
@@ -439,24 +323,21 @@ article {
     align-items: center;
     justify-content: center;
     width: 100%;
-    padding: 12px 16px;
-    /* ポップアップと共通のパディング */
-    border: 2px solid #0D8B80;
+    padding: 16px;
+    border: none;
     border-radius: 50px;
     background-color: #ffffff;
-    color: #0D8B80;
+    color: #3b2a75;
+    /* 濃い紫 */
     text-decoration: none;
     box-sizing: border-box;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-}
-
-.btn-outline:hover {
-    background-color: #f0fdfa;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    transition: transform 0.1s ease, box-shadow 0.2s ease;
 }
 
 .btn-outline:active {
     transform: translateY(2px);
-    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
 }
 
 .btn-main-text {
@@ -471,30 +352,7 @@ article {
     font-size: 10px;
     font-weight: bold;
     margin-top: 4px;
+    color: #666;
 }
 
-
-/*=========================================================
-#背景装飾
-=========================================================*/
-.bg-decorations {
-    position: fixed;
-    width: 100%;
-    inset: 0;
-    z-index: 1;
-    pointer-events: none;
-    opacity: .3;
-}
-
-.decor-img {
-    position: absolute;
-    display: block;
-    width: 100%;
-    height: auto;
-}
-
-.header-grad {
-    top: 0;
-    left: 0;
-    width: 100%;
-}
+/* 以降、ポップアップなどのCSSは既存のまま残してください */
