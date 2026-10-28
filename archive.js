@@ -6,73 +6,59 @@ const TOTAL_ITEMS = 7;
 const SCULPTURES = [
     {
         id: 1,
-        name: "リニア改札の記憶",
-        image: "images/favicon.png",
-        area: "2040年の橋本",
-        author: "リニア中央新幹線開発チーム",
-        story: "2040年、リニア中央新幹線の開通により品川まで一瞬で繋がった橋本駅。地下深くの巨大ホームに降り立つと、乗客たちは旅の楽しみに胸を躍らせます。未来の会話記録に残されていたのは、時速500kmの車内で味わう限定の「べんとう」についての楽しげな思い出でした。",
+        name: "スマートリング",
+        image: "images/OOPARTS01_BG.png",
+        story: "脈拍から口座番号まで、あらゆる情報を記憶できる指輪。リニア乗車時の乗車券情報もそこには収められている。手をかざすだけで改札を通れる優れもの。心拍に異常が見受けられた時、自動で医療機関へ報告してくれる。内側にはD.B.C.Bの刻印がある。",
         link: "https://www.yamaha-motor.co.jp/mobilites/",
-        keyword: "べんとう"
+        keyword: "スマートリング"
     },
     {
         id: 2,
-        name: "Mobilit.E.Sと風",
-        image: "images/favicon.png",
-        area: "2040年の橋本",
-        author: "YAMAHA Mobilit.E.S",
-        story: "リニアを降りた人々を待ち受けるのは、静かに街を駆けぬける次世代モビリティ。心地よい風を感じながら橋本の広大なプロムナードを進む中、車内スピーカーからは流れる「おんがく」が、旅人たちの会話をやさしく包み込んでいました。",
+        name: "配送ドローン",
+        image: "images/OOPARTS02_BG.png",
+        story: "重量3キログラム以内なら配送可能な無人ドローン。人件費削減に一躍買っており、安全迅速な配送を実現した。衣類・食料品・日用品など、様々な商品が空を飛び交う暮らしが始まった。裏側にはD.B.C.Bの刻印がある。",
         link: "https://www.yamaha-motor.co.jp/mobilites/",
-        keyword: "おんがく"
+        keyword: "配送ドローン"
     },
     {
         id: 3,
-        name: "緑地公園のポニー",
-        image: "images/favicon.png",
-        area: "2040年の橋本",
-        author: "緑区都市デザイン課",
-        story: "高層ビルと自然が共存する未来の橋本。モビリティで少し離れた公園に向かうと、子どもたちに愛されるポニーの姿があります。会話記録には、手のひらに乗せた「にんじん」をポニーがおいしそうに食べた、あたたかな午後の出来事が記録されています。",
+        name: "スマートグラス",
+        image: "images/hashimoto2040_OOPARTS03_BG.png",
+        story: "高性能コンピュータを搭載した眼鏡。目に映る景色を自動で解析し、ユーザーが欲している情報をピックアップして表示する。外国語の翻訳機能に特に需要があり、文字や音声を自動翻訳しリアルタイムで表示してくれる。小さくD.B.C.Bの刻印がある。",
         link: "https://www.yamaha-motor.co.jp/mobilites/",
-        keyword: "にんじん"
+        keyword: "スマートグラス"
     },
     {
         id: 4,
-        name: "未来都市のタイムカプセル",
+        name: "AIスマートフォン",
         image: "images/favicon.png",
-        area: "2040年の橋本",
-        author: "橋本歴史保存会",
-        story: "駅前広場の光る時計台の足元には、リニア工事が始まった頃の記憶を納めたタイムカプセルが眠っています。会話記録の少女は、20年前の自分から届いた「てがみ」を抱きしめ、変わりゆく街並みを感慨深そうに見つめていました。",
+        story: "パートナーAIが搭載されたスマートフォン。パートナーAIとは、自分に関するあらゆる知識や情報を登録したAIマネージャーを所有することができるサービス。どの企業のAIを契約し、育成していくかはユーザー次第。カバー裏にD.B.C.Bの刻印がある。",
         link: "https://www.yamaha-motor.co.jp/mobilites/",
-        keyword: "てがみ"
+        keyword: "AIスマートフォン"
     },
     {
         id: 5,
-        name: "相模川の風鈴モニュメント",
+        name: "MSデジタルカルテ",
         image: "images/favicon.png",
-        area: "2040年の橋本",
-        author: "環境アートプロジェクト",
-        story: "相模川からの爽やかな風を受けて発電するガラス製のモニュメント。夕暮れ時になると風に乗って繊細な音色を響かせます。未来の人々は、まるで「ふうりん」のようなその美しい涼音に耳を澄ませながら、日々の疲れを癒やしていました。",
+        story: "メディカルステーション利用時に受け取れるデジタルカルテ。利用者の身体情報や、懸念される病気・怪我などのデータが記載されている。しかしながら医療機関での受診が不要になったということではないので注意が必要。右下にD.B.C.Bのロゴマークがある。",
         link: "https://www.yamaha-motor.co.jp/mobilites/",
-        keyword: "ふうりん"
+        keyword: "MSデジタルカルテ"
     },
     {
         id: 6,
-        name: "リニア展望テラス",
+        name: "MT乗車カード",
         image: "images/favicon.png",
-        area: "2040年の橋本",
-        author: "橋本スカイテラス設計室",
-        story: "地下から地上へ飛び出すリニアを一望できる絶景のテラスカフェ。会話記録に残されたふたりの会話では、湯気が立つ香ばしい「こーひー」を飲みながら、光の矢のように走り去る列車を眺める時間が何よりの贅沢だと語られています。",
+        story: "マイクロタクシー専用の乗車カード。年会費を払って作成可能。マイクロタクシーは決められた走行区間を巡回しており、アプリを使って好きなタイミングで呼ぶことができる。ビジネスで頻繁に利用するなら、乗車カードは持っておくと便利。表面にD.B.C.Bの刻印がある。",
         link: "https://www.yamaha-motor.co.jp/mobilites/",
-        keyword: "こーひー"
+        keyword: "MT乗車カード"
     },
     {
         id: 7,
-        name: "ホログラムの記憶碑",
+        name: "未来の橋本の写真",
         image: "images/favicon.png",
-        area: "2040年の橋本",
-        author: "2040未来ビジョン",
-        story: "街角にたたずむ立体ホログラムの伝言板。過去と未来の想いを繋ぐこの場所で、ある人は大切な人から贈られた「ゆびわ」の思い出を立体映像として再現し、未来の橋本の空の下で静かに微笑んでいました。",
+        story: "2040年の橋本が写った写真。街並みは今と大きく変わっているわけではないが、確かに暮らしやすく、便利な街へと発展していった。写真は紙に印刷されており、昨今では珍しい。D.B.C.Bの刻印はない。",
         link: "https://www.yamaha-motor.co.jp/mobilites/",
-        keyword: "ゆびわ"
+        keyword: "未来の橋本の写真"
     }
 ];
 
@@ -106,9 +92,9 @@ function openPopup(id) {
 
     document.getElementById("popNo").textContent = `No.${item.id}`;
     document.getElementById("popTitle").textContent = item.name;
-    document.getElementById("popImg").src = item.image;
-    document.getElementById("popArea").textContent = item.area;
-    document.getElementById("popAuthor").textContent = item.author;
+    const popImg = document.getElementById("popImg");
+    popImg.src = item.image;
+    popImg.alt = item.name;
     document.getElementById("popStory").textContent = item.story;
     document.getElementById("popLink").href = item.link;
 
@@ -186,7 +172,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
             if (targetItem && targetItem.keyword) {
                 setTimeout(() => {
-                    const userInput = window.prompt(`【${targetItem.name}】\n音声ガイドや記録で話題になった「キーワード」を入力してください：`);
+                    const userInput = window.prompt(`【${targetItem.name}】\n会話記録で話題になった「キーワード」を入力してください：`);
 
                     if (userInput === targetItem.keyword) {
                         unlockedSet.add(unlockId);
@@ -204,7 +190,7 @@ window.addEventListener("DOMContentLoaded", () => {
                 setTimeout(() => showToast("解放されました！"), 500);
             }
         } else {
-            setTimeout(() => showToast("この記録は既に解放されています。"), 500);
+            setTimeout(() => showToast("このオーパーツは既に解放されています。"), 500);
         }
 
         window.history.replaceState({}, document.title, window.location.pathname);
@@ -248,7 +234,7 @@ window.addEventListener("DOMContentLoaded", () => {
         padding: 36px 26px 28px;
         text-align: center;
         background: #fffdf7;
-        border: 2px solid #0D8B80;
+        border: 2px solid #50459B;
         border-radius: 16px;
         box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
         transform: scale(0.8) translateY(20px);
@@ -263,7 +249,7 @@ window.addEventListener("DOMContentLoaded", () => {
         content: "";
         position: absolute;
         inset: 8px;
-        border: 1px solid rgba(13, 139, 128, 0.4);
+        border: 1px solid rgba(80, 69, 155, 0.4);
         border-radius: 10px;
         pointer-events: none;
     }
@@ -276,9 +262,9 @@ window.addEventListener("DOMContentLoaded", () => {
         align-items: center;
         justify-content: center;
         border-radius: 50%;
-        background: linear-gradient(135deg, #0D8B80, #14a99c);
+        background: linear-gradient(135deg, #50459B, #7a6cc9);
         color: #fff;
-        box-shadow: 0 0 0 4px #fffdf7, 0 0 0 6px #0D8B80, 0 6px 16px rgba(0,0,0,.25);
+        box-shadow: 0 0 0 4px #fffdf7, 0 0 0 6px #50459B, 0 6px 16px rgba(0,0,0,.25);
         animation: sealPop 0.7s cubic-bezier(0.2, 1.5, 0.4, 1) 0.25s backwards;
     }
     .complete-seal .seal-main {
@@ -312,7 +298,7 @@ window.addEventListener("DOMContentLoaded", () => {
         font-size: 13px;
         font-weight: bold;
         color: #fff;
-        background: #0D8B80;
+        background: #50459B;
         border-radius: 999px;
     }
     .complete-desc {
@@ -330,16 +316,16 @@ window.addEventListener("DOMContentLoaded", () => {
         font-size: 15px;
         font-weight: bold;
         color: #fff;
-        background: #0D8B80;
+        background: #50459B;
         border: none;
         border-radius: 50px;
         cursor: pointer;
         transition: transform 0.1s ease, background-color 0.2s ease;
     }
-    .complete-btn:hover { background: #0b7a70; }
+    .complete-btn:hover { background: #3f3680; }
     .complete-btn:active { transform: translateY(2px); }
     .stamp-grid.all-cleared .stamp-item.unlocked {
-        box-shadow: 0 0 0 2px #0D8B80, 2px 2px 8px rgba(13, 139, 128, 0.45);
+        box-shadow: 0 0 0 2px #50459B, 2px 2px 8px rgba(80, 69, 155, 0.45);
     }
     @media (prefers-reduced-motion: reduce) {
         .complete-card, .complete-seal { animation: none; transition: opacity .3s ease; }
@@ -362,7 +348,7 @@ window.addEventListener("DOMContentLoaded", () => {
         resize();
         window.addEventListener("resize", resize);
 
-        const colors = ["#0D8B80", "#14a99c", "#ffd700", "#ffffff", "#e99a25"];
+        const colors = ["#50459B", "#7a6cc9", "#ffd700", "#ffffff", "#BDF2FC"];
         const W = window.innerWidth;
         const pieces = [];
 

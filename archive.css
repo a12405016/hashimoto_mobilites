@@ -5,7 +5,7 @@
     --ink: #ffffff;
     /* ベースの文字色を白に */
     --white: #fff;
-    --mobileites: #0D8B80;
+    --mobileites: #50459B;
     --primary: #50459B;
     /* テーマカラーを紫系に調整 */
 
@@ -77,6 +77,7 @@ main {
     position: fixed;
     inset: 0;
     z-index: 0;
+    pointer-events: none;
     background: linear-gradient(180deg, #BDF2FC 0%, #8469D3 50.96%, #02040C 100%);
     animation: jitter .4s steps(2) infinite;
     width: 410px;
@@ -450,7 +451,7 @@ article {
     max-height: 85vh;
     max-height: 85dvh;
     overflow-y: auto;
-    background: #e9e7e0 url("../images/map_backimage.png") center top / cover;
+    background: #e9e7e0 url("images/map_backimage.png") center top / cover;
     border-radius: 20px 20px 0 0;
     padding: 30px 24px;
     box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.2);
@@ -498,6 +499,10 @@ article {
 .popup-info .info-group {
     padding-bottom: 10px;
     border-bottom: 1px solid #79685b;
+}
+
+.popup-info {
+    margin-bottom: 24px;
 }
 
 .popup-info .info-group.no-border {
