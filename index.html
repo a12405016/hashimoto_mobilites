@@ -105,6 +105,21 @@
                     <p id="popStory"></p>
                 </div>
             </div>
+
+            <!-- 会話記録（音声）：音声が設定されているアイテムのみ表示 -->
+            <div class="info-group no-border audio-group" id="popAudioGroup" hidden>
+                <span class="info-label">会話記録（音声）</span>
+                <div class="audio-player" id="audioPlayer">
+                    <button type="button" class="audio-btn" id="audioBtn" aria-label="再生"></button>
+                    <div class="audio-main">
+                        <div class="audio-title" id="audioTitle">会話記録</div>
+                        <input type="range" class="audio-seek" id="audioSeek" min="0" max="100" value="0" step="0.1"
+                            aria-label="再生位置">
+                        <div class="audio-time"><span id="audioCur">0:00</span><span id="audioDur">0:00</span></div>
+                    </div>
+                </div>
+                <audio id="popAudio" preload="metadata"></audio>
+            </div>
         </div>
 
         <div class="button-group popup-buttons">

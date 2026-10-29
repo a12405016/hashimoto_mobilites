@@ -10,59 +10,57 @@ const SCULPTURES = [
         image: "images/OOPARTS01_BG.png",
         story: "脈拍から口座番号まで、あらゆる情報を記憶できる指輪。リニア乗車時の乗車券情報もそこには収められている。手をかざすだけで改札を通れる優れもの。心拍に異常が見受けられた時、自動で医療機関へ報告してくれる。内側にはD.B.C.Bの刻印がある。",
         link: "https://www.yamaha-motor.co.jp/mobilites/",
-        keyword: "スマートリング"
+        // 会話記録の音声（なければ省略。ポップアップに音声欄は出ません）
+        audio: "audio/hashimoto2040_talk01_demo.mp3",
+        audioTitle: "会話記録 01"
     },
     {
         id: 2,
         name: "配送ドローン",
         image: "images/OOPARTS02_BG.png",
         story: "重量3キログラム以内なら配送可能な無人ドローン。人件費削減に一躍買っており、安全迅速な配送を実現した。衣類・食料品・日用品など、様々な商品が空を飛び交う暮らしが始まった。裏側にはD.B.C.Bの刻印がある。",
-        link: "https://www.yamaha-motor.co.jp/mobilites/",
-        keyword: "配送ドローン"
+        link: "https://www.yamaha-motor.co.jp/mobilites/"
     },
     {
         id: 3,
         name: "スマートグラス",
         image: "images/hashimoto2040_OOPARTS03_BG.png",
         story: "高性能コンピュータを搭載した眼鏡。目に映る景色を自動で解析し、ユーザーが欲している情報をピックアップして表示する。外国語の翻訳機能に特に需要があり、文字や音声を自動翻訳しリアルタイムで表示してくれる。小さくD.B.C.Bの刻印がある。",
-        link: "https://www.yamaha-motor.co.jp/mobilites/",
-        keyword: "スマートグラス"
+        link: "https://www.yamaha-motor.co.jp/mobilites/"
     },
     {
         id: 4,
         name: "AIスマートフォン",
         image: "images/favicon.png",
         story: "パートナーAIが搭載されたスマートフォン。パートナーAIとは、自分に関するあらゆる知識や情報を登録したAIマネージャーを所有することができるサービス。どの企業のAIを契約し、育成していくかはユーザー次第。カバー裏にD.B.C.Bの刻印がある。",
-        link: "https://www.yamaha-motor.co.jp/mobilites/",
-        keyword: "AIスマートフォン"
+        link: "https://www.yamaha-motor.co.jp/mobilites/"
     },
     {
         id: 5,
         name: "MSデジタルカルテ",
         image: "images/favicon.png",
         story: "メディカルステーション利用時に受け取れるデジタルカルテ。利用者の身体情報や、懸念される病気・怪我などのデータが記載されている。しかしながら医療機関での受診が不要になったということではないので注意が必要。右下にD.B.C.Bのロゴマークがある。",
-        link: "https://www.yamaha-motor.co.jp/mobilites/",
-        keyword: "MSデジタルカルテ"
+        link: "https://www.yamaha-motor.co.jp/mobilites/"
     },
     {
         id: 6,
         name: "MT乗車カード",
         image: "images/favicon.png",
         story: "マイクロタクシー専用の乗車カード。年会費を払って作成可能。マイクロタクシーは決められた走行区間を巡回しており、アプリを使って好きなタイミングで呼ぶことができる。ビジネスで頻繁に利用するなら、乗車カードは持っておくと便利。表面にD.B.C.Bの刻印がある。",
-        link: "https://www.yamaha-motor.co.jp/mobilites/",
-        keyword: "MT乗車カード"
+        link: "https://www.yamaha-motor.co.jp/mobilites/"
     },
     {
         id: 7,
         name: "未来の橋本の写真",
         image: "images/favicon.png",
         story: "2040年の橋本が写った写真。街並みは今と大きく変わっているわけではないが、確かに暮らしやすく、便利な街へと発展していった。写真は紙に印刷されており、昨今では珍しい。D.B.C.Bの刻印はない。",
-        link: "https://www.yamaha-motor.co.jp/mobilites/",
-        keyword: "未来の橋本の写真"
+        link: "https://www.yamaha-motor.co.jp/mobilites/"
     }
 ];
 
-// EXコンテンツ（7つすべて解放すると出現する8つ目）
+// EXコンテンツ（8つ目）
+// ・7つすべて解放すると、ロックされた状態でエリアが現れます
+// ・URL「?unlock=ex」（または ?unlock=8）で解放されます
 // TODO: name / image / story を本番用の内容に差し替えてください
 const EX_ITEM = {
     id: "EX",
@@ -70,8 +68,10 @@ const EX_ITEM = {
     image: "images/favicon.png",
     story: "7つの記録がすべてそろったとき、時空の修復は完了し、封じられていた最後の記録が姿を現す。それは2040年の橋本と現在をつなぐ、特異点そのもの。ここに辿り着いたあなたは、もう立派な時空の修復者だ。",
     link: "https://www.yamaha-motor.co.jp/mobilites/"
+    // audio: "audio/xxxx.mp3",   // EXにも音声を付けるときはここに指定
+    // audioTitle: "会話記録 EX"
 };
-const EX_SEEN_KEY = "hashimoto-unlocked-area1-ex-seen";
+const EX_KEY = "hashimoto-unlocked-area1-ex";
 
 // 解放済みの彫刻IDを保存するためのキー
 const STORAGE_KEY = "hashimoto-unlocked-area1";
@@ -111,6 +111,7 @@ function openPopup(id) {
     popImg.alt = item.name;
     document.getElementById("popStory").textContent = item.story;
     document.getElementById("popLink").href = item.link;
+    setupAudio(item);
 
     document.getElementById("popupOverlay").classList.add("show");
     document.getElementById("popup").classList.add("show");
@@ -119,13 +120,113 @@ function openPopup(id) {
 function closePopup() {
     document.getElementById("popupOverlay").classList.remove("show");
     document.getElementById("popup").classList.remove("show");
+    stopAudio();
+}
+
+/* =========================================================
+    音声プレイヤー（ポップアップ内）
+========================================================= */
+const ICON_PLAY = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>';
+const ICON_PAUSE = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 5h4v14H6zM14 5h4v14h-4z" fill="currentColor"/></svg>';
+
+function fmtTime(sec) {
+    if (!isFinite(sec) || sec < 0) sec = 0;
+    const m = Math.floor(sec / 60);
+    const r = Math.floor(sec % 60);
+    return `${m}:${String(r).padStart(2, "0")}`;
+}
+
+function setPlayingUI(playing) {
+    document.getElementById("audioPlayer").classList.toggle("is-playing", playing);
+    const btn = document.getElementById("audioBtn");
+    btn.innerHTML = playing ? ICON_PAUSE : ICON_PLAY;
+    btn.setAttribute("aria-label", playing ? "一時停止" : "再生");
+}
+
+function resetAudioUI() {
+    document.getElementById("audioSeek").value = 0;
+    document.getElementById("audioCur").textContent = "0:00";
+    document.getElementById("audioDur").textContent = "0:00";
+    setPlayingUI(false);
+}
+
+function stopAudio() {
+    const audio = document.getElementById("popAudio");
+    if (!audio) return;
+    audio.pause();
+    try { audio.currentTime = 0; } catch (e) { }
+    resetAudioUI();
+}
+
+function setupAudio(item) {
+    const group = document.getElementById("popAudioGroup");
+    const audio = document.getElementById("popAudio");
+    if (!group || !audio) return;
+
+    audio.pause();
+    if (!item.audio) {
+        group.hidden = true;
+        audio.removeAttribute("src");
+        audio.load();
+        return;
+    }
+
+    group.hidden = false;
+    document.getElementById("audioTitle").textContent = item.audioTitle || "会話記録";
+    resetAudioUI();
+    audio.src = item.audio;
+    audio.load();
+}
+
+function initAudio() {
+    const audio = document.getElementById("popAudio");
+    const btn = document.getElementById("audioBtn");
+    const seek = document.getElementById("audioSeek");
+    if (!audio || !btn || !seek) return;
+
+    setPlayingUI(false);
+
+    btn.addEventListener("click", () => {
+        if (audio.paused) {
+            const p = audio.play();
+            if (p && p.catch) p.catch(() => showToast("音声を再生できませんでした"));
+        } else {
+            audio.pause();
+        }
+    });
+
+    audio.addEventListener("play", () => setPlayingUI(true));
+    audio.addEventListener("pause", () => setPlayingUI(false));
+    audio.addEventListener("ended", () => {
+        setPlayingUI(false);
+        seek.value = 0;
+        document.getElementById("audioCur").textContent = "0:00";
+        try { audio.currentTime = 0; } catch (e) { }
+    });
+    audio.addEventListener("loadedmetadata", () => {
+        document.getElementById("audioDur").textContent = fmtTime(audio.duration);
+    });
+    audio.addEventListener("timeupdate", () => {
+        if (isFinite(audio.duration) && audio.duration > 0) {
+            seek.value = (audio.currentTime / audio.duration) * 100;
+        }
+        document.getElementById("audioCur").textContent = fmtTime(audio.currentTime);
+    });
+    audio.addEventListener("error", () => {
+        if (audio.getAttribute("src")) showToast("音声ファイルを読み込めませんでした");
+    });
+
+    seek.addEventListener("input", () => {
+        if (isFinite(audio.duration) && audio.duration > 0) {
+            audio.currentTime = (seek.value / 100) * audio.duration;
+        }
+    });
 }
 
 /* =========================================================
     アンケートボタン / EXコンテンツ
 ========================================================= */
-let exQueued = false;   // 出現演出を予約済みか
-let exPlayed = false;   // この表示中に演出を再生したか
+let exUnlocked = localStorage.getItem(EX_KEY) === "true";
 
 function setSurveyState(unlocked, animate) {
     const btn = document.getElementById("surveyBtn");
@@ -135,7 +236,7 @@ function setSurveyState(unlocked, animate) {
     btn.classList.toggle("is-locked", !unlocked);
     btn.classList.toggle("is-unlocked", unlocked);
     btn.setAttribute("aria-disabled", String(!unlocked));
-    document.getElementById("surveyIcon").textContent = unlocked ? "↗" : "";
+    document.getElementById("surveyIcon").textContent = unlocked ? "↗" : "🔒";
     document.getElementById("surveySub").textContent = unlocked
         ? "アンケートにご協力ください"
         : "7つすべて解放すると開放されます";
@@ -167,91 +268,67 @@ function setExState(state) {
     document.getElementById("exTitle").textContent = revealed ? EX_ITEM.name : "？？？？？？";
     document.getElementById("exSub").textContent = revealed
         ? "すべての記録を解放した者だけが辿り着ける、最後の記録。"
-        : "7つすべて解放すると、最後の記録が現れる…";
+        : "最後の記録は、まだどこかに眠っている…";
 }
 
+// 7つ揃っているかどうかで、アンケートとEXエリアの表示を切り替える
 function updateExtras(complete, isNew) {
     const section = document.getElementById("exSection");
 
     if (!complete) {
-        // 7つ揃うまでEXエリアは存在ごと隠す
         if (section) section.hidden = true;
         setSurveyState(false, false);
         setExState("locked");
         return;
     }
 
-    const seen = localStorage.getItem(EX_SEEN_KEY) === "true";
-    if (seen || exPlayed) {
-        // 既に演出を見た人は、そのまま表示
-        if (section) section.hidden = false;
+    setExState(exUnlocked ? "revealed" : "locked");
+    if (!section) {
         setSurveyState(true, false);
-        setExState("revealed");
         return;
     }
 
-    // 初回：演出が始まるまでEXエリアは隠したまま
-    if (section) section.hidden = true;
-    setExState("pending");
-    setSurveyState(false, false);
-    if (exQueued) return;
-    exQueued = true;
-
     if (isNew) {
-        // コンプリート演出のカードが閉じられた後に再生
-        window.onCompleteClosed = playExReveal;
-    } else {
-        setTimeout(playExReveal, 600);
+        // コンプリート演出を閉じたあと、やさしくフェードインで出現
+        section.hidden = true;
+        setSurveyState(false, false);
+        window.onCompleteClosed = () => {
+            setSurveyState(true, true);
+            section.hidden = false;
+            section.classList.add("ex-appear");
+            section.scrollIntoView({ behavior: "smooth", block: "center" });
+            setTimeout(() => showToast("アンケートが開放されました！"), 1200);
+        };
+    } else if (typeof window.onCompleteClosed !== "function") {
+        setSurveyState(true, false);
+        section.hidden = false;
     }
 }
 
-function playExReveal() {
-    if (exPlayed) return;
-    exPlayed = true;
-    localStorage.setItem(EX_SEEN_KEY, "true");
+// EXをURLで解放（?unlock=ex または ?unlock=8）
+function unlockEx() {
+    if (exUnlocked) {
+        showToast("この記録は既に解放されています。");
+        return;
+    }
+    exUnlocked = true;
+    localStorage.setItem(EX_KEY, "true");
 
+    // 7つ揃う前に読み込んだ場合は、記録だけ受け取っておく
+    if (unlockedSet.size < TOTAL_ITEMS) {
+        showToast("記録を受け取りました。7つすべて解放すると現れます。");
+        return;
+    }
+
+    // 7つ揃っている場合：控えめに点灯させる
     const card = document.getElementById("exCard");
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const duration = reduce ? 1200 : 2600;
-
-    // WARNING演出の裏でEXエリアを出し、カード自体は出現の瞬間まで見せない
-    document.getElementById("exSection").hidden = false;
-    card.style.opacity = "0";
     card.scrollIntoView({ behavior: "smooth", block: "center" });
-
-    // WARNING 演出
-    const track = "WARNING ▲ ".repeat(24);
-    const warn = document.createElement("div");
-    warn.className = "ex-warning";
-    warn.innerHTML = `
-        <div class="ex-warning-band top"><div class="ex-warning-track">${track}${track}</div></div>
-        <div class="ex-warning-text">
-            <span class="ex-warning-sub">FINAL ARCHIVE DETECTED</span>
-            <span class="ex-warning-main">最後の記録が現れた</span>
-        </div>
-        <div class="ex-warning-band bottom"><div class="ex-warning-track">${track}${track}</div></div>
-    `;
-    document.body.appendChild(warn);
-
-    setTimeout(() => warn.classList.add("out"), duration);
     setTimeout(() => {
-        warn.remove();
-
-        // フラッシュ → EX出現
-        const flash = document.createElement("div");
-        flash.className = "ex-flash";
-        document.body.appendChild(flash);
-        setTimeout(() => flash.remove(), 800);
-
         setExState("revealed");
-        card.style.opacity = "";
-        card.classList.add("ex-burst");
-        setTimeout(() => card.classList.remove("ex-burst"), 1300);
-
-        // アンケートも開放
-        setSurveyState(true, true);
-        setTimeout(() => showToast("EXコンテンツとアンケートが開放されました！"), 1300);
-    }, duration + 400);
+        card.classList.add("ex-unlock");
+        setTimeout(() => card.classList.remove("ex-unlock"), 1900);
+        setTimeout(() => showToast("EXの記録が解放されました！"), 900);
+    }, 600);
 }
 
 function initExtras() {
@@ -261,7 +338,7 @@ function initExtras() {
             if (card.dataset.state === "revealed") {
                 openPopup("EX");
             } else {
-                showToast("7つすべて解放すると、最後の記録が現れます");
+                showToast("まだ解放されていません");
             }
         };
         card.addEventListener("click", onActivate);
@@ -341,36 +418,30 @@ function renderGrid() {
 window.addEventListener("DOMContentLoaded", () => {
     unlockedSet = loadUnlocked();
     initExtras();
+    initAudio();
     renderGrid();
 
+    // URLパラメータによる解放：?unlock=1〜7（EXは ?unlock=ex または ?unlock=8）
     const urlParams = new URLSearchParams(window.location.search);
-    const unlockId = parseInt(urlParams.get('unlock'));
+    const raw = (urlParams.get("unlock") || "").trim().toLowerCase();
 
-    if (unlockId && !isNaN(unlockId) && unlockId >= 1 && unlockId <= TOTAL_ITEMS) {
-        if (!unlockedSet.has(unlockId)) {
+    if (raw) {
+        if (raw === "ex" || raw === String(TOTAL_ITEMS + 1)) {
+            setTimeout(unlockEx, 300);
+        } else {
+            const unlockId = parseInt(raw, 10);
             const targetItem = SCULPTURES.find(s => s.id === unlockId);
 
-            if (targetItem && targetItem.keyword) {
-                setTimeout(() => {
-                    const userInput = window.prompt(`【${targetItem.name}】\n会話記録で話題になった「キーワード」を入力してください：`);
-
-                    if (userInput === targetItem.keyword) {
-                        unlockedSet.add(unlockId);
-                        saveUnlocked(unlockedSet);
-                        renderGrid();
-                        setTimeout(() => showToast(`${targetItem.name} の記録が解放されました！`), 300);
-                    } else if (userInput !== null && userInput !== "") {
-                        alert("キーワードが違います。会話記録をよく聞いてもう一度お試しください。");
-                    }
-                }, 100);
-            } else {
-                unlockedSet.add(unlockId);
-                saveUnlocked(unlockedSet);
-                renderGrid();
-                setTimeout(() => showToast("解放されました！"), 500);
+            if (targetItem) {
+                if (!unlockedSet.has(unlockId)) {
+                    unlockedSet.add(unlockId);
+                    saveUnlocked(unlockedSet);
+                    renderGrid();
+                    setTimeout(() => showToast(`${targetItem.name} の記録が解放されました！`), 500);
+                } else {
+                    setTimeout(() => showToast("このオーパーツは既に解放されています。"), 500);
+                }
             }
-        } else {
-            setTimeout(() => showToast("このオーパーツは既に解放されています。"), 500);
         }
 
         window.history.replaceState({}, document.title, window.location.pathname);
@@ -379,250 +450,204 @@ window.addEventListener("DOMContentLoaded", () => {
 
 /* =========================================================
     コンプリート演出
+    ブラウン管の信号復旧（7つのゲージが埋まる）→ 水面の波紋が広がる
 ========================================================= */
 (function () {
     const style = document.createElement("style");
     style.textContent = `
-    #confettiCanvas {
+    .cx-ov {
         position: fixed;
         inset: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 2000;
-    }
-    .complete-overlay {
-        position: fixed;
-        inset: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: rgba(0, 0, 0, 0.65);
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.5s ease;
         z-index: 2001;
-        padding: 20px;
-    }
-    .complete-overlay.show {
-        opacity: 1;
-        pointer-events: auto;
-    }
-    .complete-card {
-        position: relative;
-        width: min(100%, 340px);
-        padding: 36px 26px 28px;
-        text-align: center;
-        background: #fffdf7;
-        border: 2px solid #50459B;
-        border-radius: 16px;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-        transform: scale(0.8) translateY(20px);
+        background: rgba(0, 0, 12, 0.6);
         opacity: 0;
-        transition: transform 0.5s cubic-bezier(0.2, 1.2, 0.35, 1), opacity 0.4s ease;
+        pointer-events: none;
+        transition: opacity 0.4s ease, background-color 1s ease;
+        overflow: hidden;
+        color: #fff;
     }
-    .complete-overlay.show .complete-card {
-        transform: scale(1) translateY(0);
-        opacity: 1;
+    .cx-ov.show { opacity: 1; pointer-events: auto; }
+    .cx-ov.done { background: rgba(0, 0, 0, 0.62); }
+
+    /* ブラウン管のノイズ */
+    .cx-crt {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: repeating-linear-gradient(0deg, rgba(0,0,0,.4) 0 2px, transparent 2px 4px), rgba(0, 0, 10, .35);
+        animation: cxFlick .12s steps(2) infinite;
+        transition: opacity 1s ease;
     }
-    .complete-card::before {
+    .cx-crt::after {
         content: "";
         position: absolute;
-        inset: 8px;
-        border: 1px solid rgba(80, 69, 155, 0.4);
-        border-radius: 10px;
+        left: 0; right: 0; top: 0;
+        height: 60px;
+        background: linear-gradient(transparent, rgba(255,255,255,.25), transparent);
+        animation: cxTear 1.6s linear infinite;
+    }
+    .cx-ov.done .cx-crt { opacity: 0; animation: none; }
+
+    .cx-t {
+        position: absolute;
+        pointer-events: none;
+        left: 0; right: 0;
+        top: 33%;
+        padding: 0 20px;
+        text-align: center;
+        text-shadow: 0 0 14px rgba(80,69,155,.9), 0 2px 6px rgba(0,0,0,.5);
+    }
+    .cx-t small { display: block; margin-bottom: 10px; font-size: 12px; font-weight: bold; letter-spacing: .4em; }
+    .cx-t b { display: block; font-family: serif; font-size: 28px; letter-spacing: .1em; }
+    .cx-t.glitch b { animation: cxGlitch .25s steps(2) infinite; }
+    .cx-t.in { animation: cxIn .9s ease both; }
+
+    /* 7つのゲージ */
+    .cx-seg {
+        position: absolute;
+        pointer-events: none;
+        left: 0; right: 0;
+        top: 50%;
+        display: flex;
+        justify-content: center;
+        gap: 6px;
+        transition: opacity .5s ease;
+    }
+    .cx-seg i { width: 30px; height: 10px; background: rgba(255,255,255,.2); transition: .2s; }
+    .cx-seg i.on { background: #BDF2FC; box-shadow: 0 0 10px #BDF2FC; }
+    .cx-ov.done .cx-seg { opacity: 0; }
+
+    /* 水面の波紋 */
+    .cx-rp {
+        position: absolute;
+        left: 50%; top: 40%;
+        width: 12vmax; height: 12vmax;
+        margin: -6vmax;
+        border: 2px solid #fff;
+        border-radius: 50%;
+        opacity: 0;
+        box-shadow: 0 0 12px rgba(189,242,252,.6);
+        animation: cxRipple 2.6s ease-out forwards;
         pointer-events: none;
     }
-    .complete-seal {
-        width: 104px;
-        height: 104px;
-        margin: 0 auto 18px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #50459B, #7a6cc9);
-        color: #fff;
-        box-shadow: 0 0 0 4px #fffdf7, 0 0 0 6px #50459B, 0 6px 16px rgba(0,0,0,.25);
-        animation: sealPop 0.7s cubic-bezier(0.2, 1.5, 0.4, 1) 0.25s backwards;
+    .cx-rp.b { border-color: #BDF2FC; }
+    .cx-flash { position: absolute; inset: 0; background: #fff; animation: cxFlash .8s ease-out forwards; pointer-events: none; }
+
+    /* 完了後の文言とボタン */
+    .cx-end {
+        position: absolute;
+        left: 50%;
+        top: 52%;
+        width: min(calc(100% - 48px), 340px);
+        transform: translateX(-50%);
+        text-align: center;
+        opacity: 0;
+        pointer-events: none;
+        z-index: 5;
     }
-    .complete-seal .seal-main {
-        font-size: 10px;
-        font-weight: bold;
-        letter-spacing: 0.04em;
-        line-height: 1;
-    }
-    .complete-seal .seal-sub {
-        margin-top: 6px;
-        font-size: 26px;
-        font-weight: bold;
-        line-height: 1;
-    }
-    @keyframes sealPop {
-        0%   { transform: scale(0) rotate(-45deg); opacity: 0; }
-        100% { transform: scale(1) rotate(0deg); opacity: 1; }
-    }
-    .complete-card h3 {
-        font-family: serif;
-        font-size: 21px;
-        font-weight: bold;
-        letter-spacing: 0.06em;
-        color: #111;
-        margin-bottom: 10px;
-    }
-    .complete-area {
-        display: inline-block;
-        padding: 5px 16px;
-        margin-bottom: 16px;
-        font-size: 13px;
-        font-weight: bold;
-        color: #fff;
-        background: #50459B;
-        border-radius: 999px;
-    }
-    .complete-desc {
-        font-size: 13px;
-        line-height: 1.8;
-        color: #333;
-        margin-bottom: 22px;
-    }
-    .complete-btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
+    .cx-ov.done .cx-end { opacity: 1; pointer-events: auto; transition: opacity .9s ease 1.2s; }
+    .cx-end p { margin-bottom: 20px; font-size: 13px; line-height: 1.8; text-shadow: 0 1px 4px rgba(0,0,0,.6); }
+    .cx-btn {
         width: 100%;
         padding: 13px 16px;
-        font-size: 15px;
-        font-weight: bold;
-        color: #fff;
-        background: #50459B;
         border: none;
         border-radius: 50px;
+        background: #fff;
+        color: #50459B;
+        font-size: 15px;
+        font-weight: bold;
         cursor: pointer;
-        transition: transform 0.1s ease, background-color 0.2s ease;
+        box-shadow: 0 4px 10px rgba(0,0,0,.4);
+        transition: transform .1s ease;
     }
-    .complete-btn:hover { background: #3f3680; }
-    .complete-btn:active { transform: translateY(2px); }
+    .cx-btn:active { transform: translateY(2px); }
+
     .stamp-grid.all-cleared .stamp-item.unlocked {
         box-shadow: 0 0 0 2px #50459B, 2px 2px 8px rgba(80, 69, 155, 0.45);
     }
+
+    @keyframes cxFlick { 50% { opacity: .8; } }
+    @keyframes cxTear { from { top: -60px; } to { top: 100%; } }
+    @keyframes cxGlitch {
+        0%   { transform: translate(0);       text-shadow: 2px 0 #ff2d6f, -2px 0 #2dfff0; }
+        50%  { transform: translate(-3px,1px); text-shadow: -3px 0 #ff2d6f, 3px 0 #2dfff0; }
+    }
+    @keyframes cxIn { from { opacity: 0; transform: translateY(10px) scale(.95); } }
+    @keyframes cxFlash { to { opacity: 0; } }
+    @keyframes cxRipple {
+        0%   { transform: scale(0); opacity: .9; }
+        100% { transform: scale(8); opacity: 0; }
+    }
     @media (prefers-reduced-motion: reduce) {
-        .complete-card, .complete-seal { animation: none; transition: opacity .3s ease; }
+        .cx-crt, .cx-crt::after, .cx-t.glitch b { animation: none; }
+        .cx-rp { display: none; }
     }
     `;
     document.head.appendChild(style);
 
-    function launchConfetti(duration = 3500) {
-        const canvas = document.createElement("canvas");
-        canvas.id = "confettiCanvas";
-        document.body.appendChild(canvas);
-
-        const ctx = canvas.getContext("2d");
-        const dpr = window.devicePixelRatio || 1;
-        function resize() {
-            canvas.width = window.innerWidth * dpr;
-            canvas.height = window.innerHeight * dpr;
-            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-        }
-        resize();
-        window.addEventListener("resize", resize);
-
-        const colors = ["#50459B", "#7a6cc9", "#ffd700", "#ffffff", "#BDF2FC"];
-        const W = window.innerWidth;
-        const pieces = [];
-
-        for (let i = 0; i < 140; i++) {
-            pieces.push({
-                x: Math.random() * W,
-                y: Math.random() * -window.innerHeight,
-                w: 6 + Math.random() * 6,
-                h: 8 + Math.random() * 8,
-                color: colors[Math.floor(Math.random() * colors.length)],
-                speed: 1.5 + Math.random() * 3,
-                drift: -1 + Math.random() * 2,
-                rot: Math.random() * Math.PI * 2,
-                rotSpeed: -0.1 + Math.random() * 0.2
-            });
-        }
-
-        const start = performance.now();
-
-        function frame(now) {
-            const elapsed = now - start;
-            ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-
-            const fade = elapsed > duration - 800
-                ? Math.max(0, (duration - elapsed) / 800)
-                : 1;
-            ctx.globalAlpha = fade;
-
-            pieces.forEach(p => {
-                p.y += p.speed;
-                p.x += p.drift;
-                p.rot += p.rotSpeed;
-
-                if (p.y > window.innerHeight + 20 && elapsed < duration - 1200) {
-                    p.y = -20;
-                    p.x = Math.random() * window.innerWidth;
-                }
-
-                ctx.save();
-                ctx.translate(p.x, p.y);
-                ctx.rotate(p.rot);
-                ctx.fillStyle = p.color;
-                ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
-                ctx.restore();
-            });
-
-            if (elapsed < duration) {
-                requestAnimationFrame(frame);
-            } else {
-                window.removeEventListener("resize", resize);
-                canvas.remove();
-            }
-        }
-        requestAnimationFrame(frame);
-    }
-
     function showCompleteOverlay() {
-        if (document.querySelector(".complete-overlay")) return;
-
-        const banner = document.querySelector(".area-banner");
-        const areaName = banner ? banner.textContent.trim() : "2040年の橋本";
+        if (document.querySelector(".cx-ov")) return;
 
         const overlay = document.createElement("div");
-        overlay.className = "complete-overlay";
+        overlay.className = "cx-ov";
         overlay.innerHTML = `
-            <div class="complete-card">
-                <div class="complete-seal">
-                    <span class="seal-main">COMPLETE</span>
-                    <span class="seal-sub">${TOTAL_ITEMS}/${TOTAL_ITEMS}</span>
-                </div>
-                <h3>コンプリート！</h3>
-                <div class="complete-area">${areaName}</div>
-                <p class="complete-desc">
-                    すべてのスポットを巡りました。<br>
-                    2040年の記憶が、すべて解放されました。
-                </p>
-                <button type="button" class="complete-btn">記録を見る</button>
+            <div class="cx-crt"></div>
+            <div class="cx-t glitch" id="cxText"><small>NO SIGNAL</small><b>時空が途切れている…</b></div>
+            <div class="cx-seg">${"<i></i>".repeat(TOTAL_ITEMS)}</div>
+            <div class="cx-end">
+                <p>すべてのスポットを巡りました。<br>2040年の記憶が、すべて解放されました。</p>
+                <button type="button" class="cx-btn">記録を見る</button>
             </div>
         `;
         document.body.appendChild(overlay);
 
+        const timers = [];
+        const wait = (fn, ms) => timers.push(setTimeout(fn, ms));
+        const text = overlay.querySelector("#cxText");
+        const segs = overlay.querySelectorAll(".cx-seg i");
+        const GAUGE_START = 900, GAUGE_STEP = 320;
+
+        // ① 信号が途切れている → ② 修復中（ゲージが1つずつ埋まる）
+        wait(() => {
+            text.innerHTML = "<small>RESTORING…</small><b>時空を修復中</b>";
+        }, GAUGE_START);
+        segs.forEach((el, i) => wait(() => el.classList.add("on"), GAUGE_START + i * GAUGE_STEP));
+
+        // ③ 復旧：フラッシュ → ノイズが消え、水面の波紋が広がる
+        wait(() => {
+            const flash = document.createElement("div");
+            flash.className = "cx-flash";
+            overlay.appendChild(flash);
+            setTimeout(() => flash.remove(), 900);
+
+            [0, 0.5].forEach((d, i) => {
+                const rp = document.createElement("div");
+                rp.className = "cx-rp" + (i % 2 ? " b" : "");
+                rp.style.animationDelay = d + "s";
+                overlay.appendChild(rp);
+                setTimeout(() => rp.remove(), 3500);
+            });
+
+            overlay.classList.add("done");
+            text.className = "cx-t in";
+            text.innerHTML = "<small>SIGNAL RESTORED</small><b>時空、修復完了</b>";
+        }, GAUGE_START + segs.length * GAUGE_STEP + 300);
+
         function close() {
+            timers.forEach(clearTimeout);
             overlay.classList.remove("show");
             setTimeout(() => overlay.remove(), 500);
-            // コンプリート演出が閉じたら、EXの出現演出へ
+            // 演出が閉じたら、アンケート・EXエリアの出現へ
             if (typeof window.onCompleteClosed === "function") {
                 const cb = window.onCompleteClosed;
                 window.onCompleteClosed = null;
                 setTimeout(cb, 600);
             }
         }
-        overlay.querySelector(".complete-btn").addEventListener("click", close);
+        overlay.querySelector(".cx-btn").addEventListener("click", close);
+        // 演出の途中で閉じてしまわないよう、完了後のみ背景タップでも閉じられる
         overlay.addEventListener("click", (e) => {
-            if (e.target === overlay) close();
+            if (e.target === overlay && overlay.classList.contains("done")) close();
         });
 
         requestAnimationFrame(() => {
@@ -635,8 +660,6 @@ window.addEventListener("DOMContentLoaded", () => {
         if (grid) grid.classList.add("all-cleared");
 
         if (!isNew) return;
-
-        launchConfetti();
         setTimeout(showCompleteOverlay, 600);
     };
 

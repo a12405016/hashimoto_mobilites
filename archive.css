@@ -667,14 +667,8 @@ article {
 }
 
 /* =========================================
-   EXコンテンツ（ラスボス枠）
+   EXコンテンツ（控えめな特別枠）
 ========================================= */
-@property --ex-angle {
-    syntax: "<angle>";
-    initial-value: 0deg;
-    inherits: false;
-}
-
 .ex-section {
     margin: 8px 0 40px;
     position: relative;
@@ -682,6 +676,23 @@ article {
 
 .ex-section[hidden] {
     display: none;
+}
+
+/* 出現：ふわっとフェードイン */
+.ex-section.ex-appear {
+    animation: exFadeIn 1s ease both;
+}
+
+@keyframes exFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
 }
 
 .ex-divider {
@@ -714,122 +725,88 @@ article {
 .ex-card {
     position: relative;
     isolation: isolate;
-    padding: 3px;
-    border-radius: 18px;
+    padding: 2px;
+    border-radius: 16px;
     cursor: pointer;
+    transition: box-shadow 1.2s ease;
 }
 
-/* 枠線（ロック中は静的、解放後は回転する虹金色） */
-.ex-card::before {
+.ex-card.is-revealed {
+    box-shadow: 0 0 18px rgba(255, 215, 106, 0.3);
+}
+
+/* 枠線：ロック中は暗い紫、解放後は金色へゆっくり切り替わる */
+.ex-card::before,
+.ex-card::after {
     content: "";
     position: absolute;
     inset: 0;
     z-index: -1;
     border-radius: inherit;
+}
+
+.ex-card::before {
     background: linear-gradient(135deg, #4a4580, #1b1838);
 }
 
-.ex-card.is-revealed::before {
-    background: conic-gradient(from var(--ex-angle), #ffd76a, #8469D3, #BDF2FC, #ffd76a, #ff5ad2, #ffd76a);
-    animation: exSpin 4s linear infinite;
+.ex-card::after {
+    background: linear-gradient(135deg, #f3dd9a, #c9a24a 45%, #9b8be0);
+    opacity: 0;
+    transition: opacity 1.2s ease;
 }
 
-@keyframes exSpin {
-    to {
-        --ex-angle: 360deg;
-    }
+.ex-card.is-revealed::after {
+    opacity: 1;
 }
 
-/* 背後のオーラ */
+/* 背後のうっすらとした光 */
 .ex-aura {
     position: absolute;
-    inset: -16px;
+    inset: -12px;
     z-index: -2;
-    border-radius: 32px;
-    background: radial-gradient(circle, rgba(255, 215, 106, 0.6), rgba(132, 105, 211, 0.4) 50%, transparent 72%);
-    filter: blur(14px);
+    border-radius: 28px;
+    background: radial-gradient(circle, rgba(255, 215, 106, 0.35), rgba(132, 105, 211, 0.25) 55%, transparent 75%);
+    filter: blur(12px);
     opacity: 0;
     pointer-events: none;
+    transition: opacity 1.2s ease;
 }
 
 .ex-card.is-revealed .ex-aura {
     opacity: 1;
-    animation: auraPulse 2.4s ease-in-out infinite;
-}
-
-@keyframes auraPulse {
-
-    0%,
-    100% {
-        transform: scale(0.97);
-        opacity: 0.75;
-    }
-
-    50% {
-        transform: scale(1.03);
-        opacity: 1;
-    }
 }
 
 .ex-inner {
     position: relative;
     overflow: hidden;
     padding: 34px 20px 24px;
-    border-radius: 15px;
+    border-radius: 14px;
     text-align: center;
     color: #fff;
     background: radial-gradient(ellipse at 50% 0%, #2b2468 0%, #14102e 60%, #0a0818 100%);
 }
 
 .ex-card.is-revealed .ex-inner {
-    background: radial-gradient(ellipse at 50% 0%, #3b2a8f 0%, #1a1040 55%, #0b0720 100%);
+    background: radial-gradient(ellipse at 50% 0%, #34288a 0%, #181038 55%, #0b0720 100%);
 }
 
-/* 光の筋 */
-.ex-card.is-revealed .ex-inner::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -60%;
-    width: 40%;
-    height: 100%;
-    background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.18), transparent);
-    transform: skewX(-20deg);
-    pointer-events: none;
-    animation: btnShine 4s ease-in-out infinite;
-}
-
-/* きらめき */
+/* きらめき（ごく控えめ） */
 .ex-sparkles {
     position: absolute;
     inset: 0;
     opacity: 0;
     pointer-events: none;
+    transition: opacity 1.2s ease;
     background-image:
-        radial-gradient(2px 2px at 12% 22%, #fff, transparent 60%),
-        radial-gradient(2px 2px at 82% 15%, #ffd76a, transparent 60%),
+        radial-gradient(1.5px 1.5px at 12% 22%, #fff, transparent 60%),
+        radial-gradient(1.5px 1.5px at 82% 15%, #ffd76a, transparent 60%),
         radial-gradient(1.5px 1.5px at 65% 70%, #fff, transparent 60%),
-        radial-gradient(2px 2px at 25% 80%, #BDF2FC, transparent 60%),
-        radial-gradient(1.5px 1.5px at 90% 55%, #fff, transparent 60%),
-        radial-gradient(2px 2px at 45% 35%, #ffd76a, transparent 60%),
-        radial-gradient(1.5px 1.5px at 8% 55%, #ffd76a, transparent 60%);
+        radial-gradient(1.5px 1.5px at 25% 80%, #BDF2FC, transparent 60%),
+        radial-gradient(1.5px 1.5px at 90% 55%, #fff, transparent 60%);
 }
 
 .ex-card.is-revealed .ex-sparkles {
-    opacity: 1;
-    animation: twinkle 2.4s ease-in-out infinite;
-}
-
-@keyframes twinkle {
-
-    0%,
-    100% {
-        opacity: 0.35;
-    }
-
-    50% {
-        opacity: 1;
-    }
+    opacity: 0.7;
 }
 
 .ex-badge {
@@ -844,12 +821,12 @@ article {
     letter-spacing: 0.15em;
     color: #9a96c0;
     background: #2a2650;
+    transition: color 1.2s ease, background-color 1.2s ease;
 }
 
 .ex-card.is-revealed .ex-badge {
     color: #3a2a00;
     background: linear-gradient(135deg, #fff1b8, #ffd76a 50%, #ffb340);
-    box-shadow: 0 0 10px rgba(255, 215, 106, 0.8);
 }
 
 .ex-eyebrow {
@@ -858,11 +835,11 @@ article {
     font-weight: bold;
     letter-spacing: 0.35em;
     color: #9a96c0;
+    transition: color 1.2s ease;
 }
 
 .ex-card.is-revealed .ex-eyebrow {
     color: #ffd76a;
-    text-shadow: 0 0 8px rgba(255, 215, 106, 0.7);
 }
 
 .ex-img-frame {
@@ -874,12 +851,12 @@ article {
     border: 3px solid #4a4580;
     background: #0b0720;
     overflow: hidden;
-    transition: border-color 0.8s ease, box-shadow 0.8s ease;
+    transition: border-color 1.2s ease, box-shadow 1.2s ease;
 }
 
 .ex-card.is-revealed .ex-img-frame {
-    border-color: #ffd76a;
-    box-shadow: 0 0 22px rgba(255, 215, 106, 0.7), inset 0 0 14px rgba(255, 215, 106, 0.3);
+    border-color: #e0bf6a;
+    box-shadow: 0 0 14px rgba(255, 215, 106, 0.4);
 }
 
 .ex-img {
@@ -887,7 +864,7 @@ article {
     height: 100%;
     object-fit: contain;
     filter: brightness(0) contrast(1.2);
-    transition: filter 1s ease;
+    transition: filter 1.4s ease;
 }
 
 .ex-card.is-revealed .ex-img {
@@ -905,10 +882,11 @@ article {
     font-size: 64px;
     font-weight: bold;
     color: #6f6aa8;
+    transition: opacity 1.2s ease;
 }
 
 .ex-card.is-revealed .ex-img-frame::after {
-    display: none;
+    opacity: 0;
 }
 
 .ex-title {
@@ -921,11 +899,7 @@ article {
 }
 
 .ex-card.is-revealed .ex-title {
-    background: linear-gradient(180deg, #ffffff 20%, #ffd76a 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    filter: drop-shadow(0 0 8px rgba(255, 215, 106, 0.6));
+    color: #fff4cf;
 }
 
 .ex-sub {
@@ -937,192 +911,35 @@ article {
 .ex-cta {
     display: inline-block;
     margin-top: 16px;
-    padding: 9px 26px;
+    padding: 8px 24px;
     border-radius: 999px;
     font-size: 12px;
     font-weight: bold;
-    letter-spacing: 0.25em;
-    color: #3a2a00;
-    background: linear-gradient(135deg, #fff1b8, #ffd76a 50%, #ffb340);
-    box-shadow: 0 0 14px rgba(255, 215, 106, 0.8), 0 3px 8px rgba(0, 0, 0, 0.4);
-    animation: ctaBlink 1.4s ease-in-out infinite;
+    letter-spacing: 0.2em;
+    color: #ffd76a;
+    border: 1px solid rgba(255, 215, 106, 0.7);
 }
 
 .ex-card.is-locked .ex-cta {
     display: none;
 }
 
-@keyframes ctaBlink {
-
-    0%,
-    100% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: 0.6;
-    }
+/* 解放の瞬間：一度だけやわらかく光る */
+.ex-card.ex-unlock {
+    animation: exGlow 1.8s ease-out;
 }
 
-/* 出現時のバースト */
-.ex-card.ex-burst {
-    animation: exBurst 1.2s cubic-bezier(0.2, 1.4, 0.4, 1);
-}
-
-@keyframes exBurst {
+@keyframes exGlow {
     0% {
-        transform: scale(0.6);
-        opacity: 0;
-        filter: brightness(3);
+        box-shadow: 0 0 0 rgba(255, 215, 106, 0);
     }
 
-    55% {
-        transform: scale(1.07);
-        opacity: 1;
-        filter: brightness(1.8);
+    40% {
+        box-shadow: 0 0 30px rgba(255, 215, 106, 0.55);
     }
 
     100% {
-        transform: scale(1);
-        filter: brightness(1);
-    }
-}
-
-/* 出現演出：WARNING */
-.ex-warning {
-    position: fixed;
-    inset: 0;
-    z-index: 3000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(10, 0, 20, 0.85);
-    transition: opacity 0.4s ease;
-    animation: warnBg 0.5s steps(2) infinite alternate;
-}
-
-.ex-warning.out {
-    opacity: 0;
-}
-
-@keyframes warnBg {
-    from {
-        background: rgba(10, 0, 20, 0.85);
-    }
-
-    to {
-        background: rgba(60, 0, 20, 0.85);
-    }
-}
-
-.ex-warning-band {
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 44px;
-    overflow: hidden;
-    background: repeating-linear-gradient(-45deg, #e0123a, #e0123a 14px, #1a0008 14px, #1a0008 28px);
-    box-shadow: 0 0 20px rgba(224, 18, 58, 0.8);
-}
-
-.ex-warning-band.top {
-    top: 22%;
-}
-
-.ex-warning-band.bottom {
-    bottom: 22%;
-}
-
-.ex-warning-track {
-    display: inline-block;
-    white-space: nowrap;
-    line-height: 44px;
-    font-size: 22px;
-    font-weight: bold;
-    letter-spacing: 0.15em;
-    color: #fff;
-    text-shadow: 0 0 6px #000, 0 0 6px #000;
-    animation: warnMarquee 5s linear infinite;
-}
-
-.ex-warning-band.bottom .ex-warning-track {
-    animation-direction: reverse;
-}
-
-@keyframes warnMarquee {
-    from {
-        transform: translateX(0);
-    }
-
-    to {
-        transform: translateX(-50%);
-    }
-}
-
-.ex-warning-text {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    text-align: center;
-    padding: 0 20px;
-    animation: warnShake 0.12s linear infinite;
-}
-
-.ex-warning-sub {
-    font-size: 12px;
-    font-weight: bold;
-    letter-spacing: 0.4em;
-    color: #ff7a93;
-}
-
-.ex-warning-main {
-    font-family: serif;
-    font-size: 28px;
-    font-weight: bold;
-    letter-spacing: 0.1em;
-    color: #fff;
-    text-shadow: 0 0 12px #e0123a, 0 0 28px #e0123a;
-}
-
-@keyframes warnShake {
-    0% {
-        transform: translate(0, 0);
-    }
-
-    25% {
-        transform: translate(2px, -1px);
-    }
-
-    50% {
-        transform: translate(-2px, 1px);
-    }
-
-    75% {
-        transform: translate(1px, 2px);
-    }
-
-    100% {
-        transform: translate(0, 0);
-    }
-}
-
-.ex-flash {
-    position: fixed;
-    inset: 0;
-    z-index: 3001;
-    background: #fff;
-    pointer-events: none;
-    animation: exFlash 0.7s ease-out forwards;
-}
-
-@keyframes exFlash {
-    from {
-        opacity: 0.95;
-    }
-
-    to {
-        opacity: 0;
+        box-shadow: 0 0 18px rgba(255, 215, 106, 0.3);
     }
 }
 
@@ -1172,18 +989,112 @@ article {
     color: #fff;
 }
 
+/* =========================================
+   音声プレイヤー（会話記録）
+========================================= */
+.audio-group {
+    margin-top: 16px;
+}
+
+.audio-group[hidden] {
+    display: none;
+}
+
+.audio-player {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 8px;
+    padding: 12px 14px;
+    background-color: #ffffff;
+    border: 1px solid #79685b;
+    border-radius: 10px;
+    box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+.audio-btn {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border: none;
+    border-radius: 50%;
+    background: #50459B;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+    transition: transform 0.1s ease, background-color 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.audio-btn:active {
+    transform: scale(0.94);
+}
+
+.audio-player.is-playing .audio-btn {
+    background: #3f3680;
+}
+
+.audio-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.audio-title {
+    margin-bottom: 4px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #111;
+}
+
+.audio-seek {
+    display: block;
+    width: 100%;
+    height: 22px;
+    margin: 0;
+    accent-color: #50459B;
+    cursor: pointer;
+}
+
+.audio-time {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #666;
+    font-variant-numeric: tabular-nums;
+}
+
+/* EXポップアップ用 */
+.popup-content.ex-mode .audio-player {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 215, 106, 0.6);
+}
+
+.popup-content.ex-mode .audio-btn {
+    background: linear-gradient(135deg, #fff1b8, #ffd76a 50%, #ffb340);
+    color: #3a2a00;
+}
+
+.popup-content.ex-mode .audio-title {
+    color: #fff;
+}
+
+.popup-content.ex-mode .audio-seek {
+    accent-color: #ffd76a;
+}
+
+.popup-content.ex-mode .audio-time {
+    color: rgba(255, 255, 255, 0.7);
+}
+
 @media (prefers-reduced-motion: reduce) {
 
-    .ex-card.is-revealed::before,
-    .ex-card.is-revealed .ex-aura,
-    .ex-card.is-revealed .ex-sparkles,
-    .ex-card.is-revealed .ex-inner::after,
-    .ex-cta,
+    .ex-section.ex-appear,
+    .ex-card.ex-unlock,
     .btn-survey.is-unlocked,
-    .btn-survey.is-unlocked::after,
-    .ex-warning,
-    .ex-warning-track,
-    .ex-warning-text {
+    .btn-survey.is-unlocked::after {
         animation: none;
     }
 }
