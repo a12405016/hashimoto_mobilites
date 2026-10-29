@@ -606,8 +606,8 @@ article {
 }
 
 .btn-survey.is-unlocked {
-    background: linear-gradient(135deg, #ffffff 0%, #fff6d6 50%, #ffffff 100%);
-    box-shadow: 0 0 0 2px #ffd76a, 0 0 18px rgba(255, 215, 106, 0.85), 0 4px 10px rgba(0, 0, 0, 0.4);
+    background: linear-gradient(135deg, #ffffff 0%, #fefeff 50%, #ffffff 100%);
+    box-shadow: 0 0 0 2px #8657e3, 0 0 18px rgba(129, 49, 186, 0.85), 0 4px 10px rgba(0, 0, 0, 0.4);
     animation: surveyPulse 2s ease-in-out infinite;
 }
 
@@ -632,11 +632,11 @@ article {
 
     0%,
     100% {
-        box-shadow: 0 0 0 2px #ffd76a, 0 0 12px rgba(255, 215, 106, 0.6), 0 4px 10px rgba(0, 0, 0, 0.4);
+        box-shadow: 0 0 0 2px #9152de, 0 0 12px rgba(144, 34, 183, 0.6), 0 4px 10px rgba(0, 0, 0, 0.4);
     }
 
     50% {
-        box-shadow: 0 0 0 2px #ffd76a, 0 0 26px rgba(255, 215, 106, 1), 0 4px 10px rgba(0, 0, 0, 0.4);
+        box-shadow: 0 0 0 2px #9152de, 0 0 26px rgb(95, 48, 175), 0 4px 10px rgba(0, 0, 0, 0.4);
     }
 }
 
@@ -750,7 +750,7 @@ article {
 }
 
 .ex-card::after {
-    background: linear-gradient(135deg, #f3dd9a, #c9a24a 45%, #9b8be0);
+    background: linear-gradient(135deg, #b79327, #c9a24a 45%, #9b8be0);
     opacity: 0;
     transition: opacity 1.2s ease;
 }
@@ -948,12 +948,12 @@ article {
 ========================================= */
 .popup-content.ex-mode {
     background: radial-gradient(ellipse at 50% 0%, #3b2a8f 0%, #1a1040 55%, #0b0720 100%);
-    border-top: 3px solid #ffd76a;
+    border-top: 3px solid #b08e30;
     box-shadow: 0 -6px 30px rgba(255, 215, 106, 0.45);
 }
 
 .popup-content.ex-mode .popup-no {
-    color: #ffd76a;
+    color: #b08e30;
     letter-spacing: 0.25em;
     text-shadow: 0 0 8px rgba(255, 215, 106, 0.7);
 }
@@ -970,12 +970,12 @@ article {
 
 .popup-content.ex-mode .popup-img {
     background: #0b0720;
-    border-color: #ffd76a;
+    border-color: #d1c192;
     box-shadow: 0 0 22px rgba(255, 215, 106, 0.7);
 }
 
 .popup-content.ex-mode .info-label {
-    color: #ffd76a;
+    color: #b08e30;
     letter-spacing: 0.1em;
 }
 
@@ -1069,7 +1069,7 @@ article {
 /* EXポップアップ用 */
 .popup-content.ex-mode .audio-player {
     background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 215, 106, 0.6);
+    border-color: rgba(241, 232, 209, 0.6);
 }
 
 .popup-content.ex-mode .audio-btn {
