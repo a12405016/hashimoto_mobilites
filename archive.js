@@ -62,6 +62,17 @@ const SCULPTURES = [
     }
 ];
 
+// EXコンテンツ（7つすべて解放すると出現する8つ目）
+// TODO: name / image / story を本番用の内容に差し替えてください
+const EX_ITEM = {
+    id: "EX",
+    name: "時空の特異点",
+    image: "images/favicon.png",
+    story: "7つの記録がすべてそろったとき、時空の修復は完了し、封じられていた最後の記録が姿を現す。それは2040年の橋本と現在をつなぐ、特異点そのもの。ここに辿り着いたあなたは、もう立派な時空の修復者だ。",
+    link: "https://www.yamaha-motor.co.jp/mobilites/"
+};
+const EX_SEEN_KEY = "hashimoto-unlocked-area1-ex-seen";
+
 // 解放済みの彫刻IDを保存するためのキー
 const STORAGE_KEY = "hashimoto-unlocked-area1";
 let unlockedSet = new Set();
@@ -87,10 +98,13 @@ function showToast(message) {
 }
 
 function openPopup(id) {
-    const item = SCULPTURES.find(s => s.id === id);
+    const isEx = id === "EX";
+    const item = isEx ? EX_ITEM : SCULPTURES.find(s => s.id === id);
     if (!item) return;
 
-    document.getElementById("popNo").textContent = `No.${item.id}`;
+    document.getElementById("popup").classList.toggle("ex-mode", isEx);
+    document.getElementById("popLabel").textContent = isEx ? "最後の記録" : "オーパーツ説明";
+    document.getElementById("popNo").textContent = isEx ? "EX" : `No.${item.id}`;
     document.getElementById("popTitle").textContent = item.name;
     const popImg = document.getElementById("popImg");
     popImg.src = item.image;
@@ -105,6 +119,169 @@ function openPopup(id) {
 function closePopup() {
     document.getElementById("popupOverlay").classList.remove("show");
     document.getElementById("popup").classList.remove("show");
+}
+
+/* =========================================================
+    アンケートボタン / EXコンテンツ
+========================================================= */
+let exQueued = false;   // 出現演出を予約済みか
+let exPlayed = false;   // この表示中に演出を再生したか
+
+function setSurveyState(unlocked, animate) {
+    const btn = document.getElementById("surveyBtn");
+    if (!btn) return;
+    const wasLocked = btn.classList.contains("is-locked");
+
+    btn.classList.toggle("is-locked", !unlocked);
+    btn.classList.toggle("is-unlocked", unlocked);
+    btn.setAttribute("aria-disabled", String(!unlocked));
+    document.getElementById("surveyIcon").textContent = unlocked ? "↗" : "";
+    document.getElementById("surveySub").textContent = unlocked
+        ? "アンケートにご協力ください"
+        : "7つすべて解放すると開放されます";
+
+    if (unlocked) {
+        btn.href = btn.dataset.href;
+    } else {
+        btn.removeAttribute("href");
+    }
+
+    if (unlocked && wasLocked && animate) {
+        btn.classList.add("just-unlocked");
+        setTimeout(() => btn.classList.remove("just-unlocked"), 1000);
+    }
+}
+
+function setExState(state) {
+    const card = document.getElementById("exCard");
+    if (!card) return;
+    const revealed = state === "revealed";
+
+    card.dataset.state = state;
+    card.classList.toggle("is-revealed", revealed);
+    card.classList.toggle("is-locked", !revealed);
+    card.setAttribute("aria-label", revealed ? `EXコンテンツ：${EX_ITEM.name}` : "EXコンテンツ（未解放）");
+
+    document.getElementById("exImg").src = EX_ITEM.image;
+    document.getElementById("exEyebrow").textContent = revealed ? "FINAL ARCHIVE" : "LOCKED";
+    document.getElementById("exTitle").textContent = revealed ? EX_ITEM.name : "？？？？？？";
+    document.getElementById("exSub").textContent = revealed
+        ? "すべての記録を解放した者だけが辿り着ける、最後の記録。"
+        : "7つすべて解放すると、最後の記録が現れる…";
+}
+
+function updateExtras(complete, isNew) {
+    const section = document.getElementById("exSection");
+
+    if (!complete) {
+        // 7つ揃うまでEXエリアは存在ごと隠す
+        if (section) section.hidden = true;
+        setSurveyState(false, false);
+        setExState("locked");
+        return;
+    }
+
+    const seen = localStorage.getItem(EX_SEEN_KEY) === "true";
+    if (seen || exPlayed) {
+        // 既に演出を見た人は、そのまま表示
+        if (section) section.hidden = false;
+        setSurveyState(true, false);
+        setExState("revealed");
+        return;
+    }
+
+    // 初回：演出が始まるまでEXエリアは隠したまま
+    if (section) section.hidden = true;
+    setExState("pending");
+    setSurveyState(false, false);
+    if (exQueued) return;
+    exQueued = true;
+
+    if (isNew) {
+        // コンプリート演出のカードが閉じられた後に再生
+        window.onCompleteClosed = playExReveal;
+    } else {
+        setTimeout(playExReveal, 600);
+    }
+}
+
+function playExReveal() {
+    if (exPlayed) return;
+    exPlayed = true;
+    localStorage.setItem(EX_SEEN_KEY, "true");
+
+    const card = document.getElementById("exCard");
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const duration = reduce ? 1200 : 2600;
+
+    // WARNING演出の裏でEXエリアを出し、カード自体は出現の瞬間まで見せない
+    document.getElementById("exSection").hidden = false;
+    card.style.opacity = "0";
+    card.scrollIntoView({ behavior: "smooth", block: "center" });
+
+    // WARNING 演出
+    const track = "WARNING ▲ ".repeat(24);
+    const warn = document.createElement("div");
+    warn.className = "ex-warning";
+    warn.innerHTML = `
+        <div class="ex-warning-band top"><div class="ex-warning-track">${track}${track}</div></div>
+        <div class="ex-warning-text">
+            <span class="ex-warning-sub">FINAL ARCHIVE DETECTED</span>
+            <span class="ex-warning-main">最後の記録が現れた</span>
+        </div>
+        <div class="ex-warning-band bottom"><div class="ex-warning-track">${track}${track}</div></div>
+    `;
+    document.body.appendChild(warn);
+
+    setTimeout(() => warn.classList.add("out"), duration);
+    setTimeout(() => {
+        warn.remove();
+
+        // フラッシュ → EX出現
+        const flash = document.createElement("div");
+        flash.className = "ex-flash";
+        document.body.appendChild(flash);
+        setTimeout(() => flash.remove(), 800);
+
+        setExState("revealed");
+        card.style.opacity = "";
+        card.classList.add("ex-burst");
+        setTimeout(() => card.classList.remove("ex-burst"), 1300);
+
+        // アンケートも開放
+        setSurveyState(true, true);
+        setTimeout(() => showToast("EXコンテンツとアンケートが開放されました！"), 1300);
+    }, duration + 400);
+}
+
+function initExtras() {
+    const card = document.getElementById("exCard");
+    if (card) {
+        const onActivate = () => {
+            if (card.dataset.state === "revealed") {
+                openPopup("EX");
+            } else {
+                showToast("7つすべて解放すると、最後の記録が現れます");
+            }
+        };
+        card.addEventListener("click", onActivate);
+        card.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                onActivate();
+            }
+        });
+    }
+
+    const survey = document.getElementById("surveyBtn");
+    if (survey) {
+        survey.addEventListener("click", (e) => {
+            if (survey.classList.contains("is-locked")) {
+                e.preventDefault();
+                showToast("7つすべて解放するとアンケートが開放されます");
+            }
+        });
+    }
 }
 
 function renderGrid() {
@@ -151,16 +328,19 @@ function renderGrid() {
         const isNew = localStorage.getItem(celebratedKey) !== "true";
         if (isNew) localStorage.setItem(celebratedKey, "true");
         celebrateCompletion(isNew);
+        updateExtras(true, isNew);
     } else {
         progressFill.classList.remove("completed");
         if (progressContainer) progressContainer.classList.remove("completed");
         clearCompletionEffect();
+        updateExtras(false, false);
     }
 }
 
 // 初期化処理
 window.addEventListener("DOMContentLoaded", () => {
     unlockedSet = loadUnlocked();
+    initExtras();
     renderGrid();
 
     const urlParams = new URLSearchParams(window.location.search);
@@ -433,6 +613,12 @@ window.addEventListener("DOMContentLoaded", () => {
         function close() {
             overlay.classList.remove("show");
             setTimeout(() => overlay.remove(), 500);
+            // コンプリート演出が閉じたら、EXの出現演出へ
+            if (typeof window.onCompleteClosed === "function") {
+                const cb = window.onCompleteClosed;
+                window.onCompleteClosed = null;
+                setTimeout(cb, 600);
+            }
         }
         overlay.querySelector(".complete-btn").addEventListener("click", close);
         overlay.addEventListener("click", (e) => {

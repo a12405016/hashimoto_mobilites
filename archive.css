@@ -582,3 +582,608 @@ article {
     color: #1a1a1a;
     margin: 0;
 }
+
+/* =========================================
+   アンケートボタン（ロック / 開放）
+========================================= */
+.btn-survey {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-survey.is-locked {
+    background-color: rgba(255, 255, 255, 0.22);
+    color: rgba(255, 255, 255, 0.9);
+    border: 1px dashed rgba(255, 255, 255, 0.6);
+    box-shadow: none;
+    cursor: not-allowed;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.btn-survey.is-locked .btn-sub-text {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.btn-survey.is-unlocked {
+    background: linear-gradient(135deg, #ffffff 0%, #fff6d6 50%, #ffffff 100%);
+    box-shadow: 0 0 0 2px #ffd76a, 0 0 18px rgba(255, 215, 106, 0.85), 0 4px 10px rgba(0, 0, 0, 0.4);
+    animation: surveyPulse 2s ease-in-out infinite;
+}
+
+.btn-survey.is-unlocked::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -60%;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.95), transparent);
+    transform: skewX(-20deg);
+    pointer-events: none;
+    animation: btnShine 3s ease-in-out infinite;
+}
+
+.btn-survey.just-unlocked {
+    animation: surveyPop 0.8s cubic-bezier(0.2, 1.5, 0.4, 1), surveyPulse 2s ease-in-out 0.8s infinite;
+}
+
+@keyframes surveyPulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 2px #ffd76a, 0 0 12px rgba(255, 215, 106, 0.6), 0 4px 10px rgba(0, 0, 0, 0.4);
+    }
+
+    50% {
+        box-shadow: 0 0 0 2px #ffd76a, 0 0 26px rgba(255, 215, 106, 1), 0 4px 10px rgba(0, 0, 0, 0.4);
+    }
+}
+
+@keyframes surveyPop {
+    0% {
+        transform: scale(0.85);
+    }
+
+    60% {
+        transform: scale(1.06);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes btnShine {
+
+    0%,
+    60% {
+        left: -60%;
+    }
+
+    100% {
+        left: 130%;
+    }
+}
+
+/* =========================================
+   EXコンテンツ（ラスボス枠）
+========================================= */
+@property --ex-angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+.ex-section {
+    margin: 8px 0 40px;
+    position: relative;
+}
+
+.ex-section[hidden] {
+    display: none;
+}
+
+.ex-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 0.4em;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+.ex-divider::before,
+.ex-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+}
+
+.ex-divider::before {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7));
+}
+
+.ex-divider::after {
+    background: linear-gradient(270deg, transparent, rgba(255, 255, 255, 0.7));
+}
+
+.ex-card {
+    position: relative;
+    isolation: isolate;
+    padding: 3px;
+    border-radius: 18px;
+    cursor: pointer;
+}
+
+/* 枠線（ロック中は静的、解放後は回転する虹金色） */
+.ex-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: linear-gradient(135deg, #4a4580, #1b1838);
+}
+
+.ex-card.is-revealed::before {
+    background: conic-gradient(from var(--ex-angle), #ffd76a, #8469D3, #BDF2FC, #ffd76a, #ff5ad2, #ffd76a);
+    animation: exSpin 4s linear infinite;
+}
+
+@keyframes exSpin {
+    to {
+        --ex-angle: 360deg;
+    }
+}
+
+/* 背後のオーラ */
+.ex-aura {
+    position: absolute;
+    inset: -16px;
+    z-index: -2;
+    border-radius: 32px;
+    background: radial-gradient(circle, rgba(255, 215, 106, 0.6), rgba(132, 105, 211, 0.4) 50%, transparent 72%);
+    filter: blur(14px);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.ex-card.is-revealed .ex-aura {
+    opacity: 1;
+    animation: auraPulse 2.4s ease-in-out infinite;
+}
+
+@keyframes auraPulse {
+
+    0%,
+    100% {
+        transform: scale(0.97);
+        opacity: 0.75;
+    }
+
+    50% {
+        transform: scale(1.03);
+        opacity: 1;
+    }
+}
+
+.ex-inner {
+    position: relative;
+    overflow: hidden;
+    padding: 34px 20px 24px;
+    border-radius: 15px;
+    text-align: center;
+    color: #fff;
+    background: radial-gradient(ellipse at 50% 0%, #2b2468 0%, #14102e 60%, #0a0818 100%);
+}
+
+.ex-card.is-revealed .ex-inner {
+    background: radial-gradient(ellipse at 50% 0%, #3b2a8f 0%, #1a1040 55%, #0b0720 100%);
+}
+
+/* 光の筋 */
+.ex-card.is-revealed .ex-inner::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -60%;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.18), transparent);
+    transform: skewX(-20deg);
+    pointer-events: none;
+    animation: btnShine 4s ease-in-out infinite;
+}
+
+/* きらめき */
+.ex-sparkles {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    background-image:
+        radial-gradient(2px 2px at 12% 22%, #fff, transparent 60%),
+        radial-gradient(2px 2px at 82% 15%, #ffd76a, transparent 60%),
+        radial-gradient(1.5px 1.5px at 65% 70%, #fff, transparent 60%),
+        radial-gradient(2px 2px at 25% 80%, #BDF2FC, transparent 60%),
+        radial-gradient(1.5px 1.5px at 90% 55%, #fff, transparent 60%),
+        radial-gradient(2px 2px at 45% 35%, #ffd76a, transparent 60%),
+        radial-gradient(1.5px 1.5px at 8% 55%, #ffd76a, transparent 60%);
+}
+
+.ex-card.is-revealed .ex-sparkles {
+    opacity: 1;
+    animation: twinkle 2.4s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+
+    0%,
+    100% {
+        opacity: 0.35;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+.ex-badge {
+    position: absolute;
+    top: 12px;
+    left: 14px;
+    padding: 3px 12px;
+    border-radius: 999px;
+    font-family: serif;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 0.15em;
+    color: #9a96c0;
+    background: #2a2650;
+}
+
+.ex-card.is-revealed .ex-badge {
+    color: #3a2a00;
+    background: linear-gradient(135deg, #fff1b8, #ffd76a 50%, #ffb340);
+    box-shadow: 0 0 10px rgba(255, 215, 106, 0.8);
+}
+
+.ex-eyebrow {
+    margin-bottom: 14px;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 0.35em;
+    color: #9a96c0;
+}
+
+.ex-card.is-revealed .ex-eyebrow {
+    color: #ffd76a;
+    text-shadow: 0 0 8px rgba(255, 215, 106, 0.7);
+}
+
+.ex-img-frame {
+    position: relative;
+    width: 160px;
+    height: 160px;
+    margin: 0 auto 18px;
+    border-radius: 12px;
+    border: 3px solid #4a4580;
+    background: #0b0720;
+    overflow: hidden;
+    transition: border-color 0.8s ease, box-shadow 0.8s ease;
+}
+
+.ex-card.is-revealed .ex-img-frame {
+    border-color: #ffd76a;
+    box-shadow: 0 0 22px rgba(255, 215, 106, 0.7), inset 0 0 14px rgba(255, 215, 106, 0.3);
+}
+
+.ex-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: brightness(0) contrast(1.2);
+    transition: filter 1s ease;
+}
+
+.ex-card.is-revealed .ex-img {
+    filter: none;
+}
+
+.ex-img-frame::after {
+    content: "？";
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: serif;
+    font-size: 64px;
+    font-weight: bold;
+    color: #6f6aa8;
+}
+
+.ex-card.is-revealed .ex-img-frame::after {
+    display: none;
+}
+
+.ex-title {
+    margin-bottom: 10px;
+    font-family: serif;
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 0.08em;
+    color: #9a96c0;
+}
+
+.ex-card.is-revealed .ex-title {
+    background: linear-gradient(180deg, #ffffff 20%, #ffd76a 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 0 8px rgba(255, 215, 106, 0.6));
+}
+
+.ex-sub {
+    font-size: 12px;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.75);
+}
+
+.ex-cta {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 9px 26px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 0.25em;
+    color: #3a2a00;
+    background: linear-gradient(135deg, #fff1b8, #ffd76a 50%, #ffb340);
+    box-shadow: 0 0 14px rgba(255, 215, 106, 0.8), 0 3px 8px rgba(0, 0, 0, 0.4);
+    animation: ctaBlink 1.4s ease-in-out infinite;
+}
+
+.ex-card.is-locked .ex-cta {
+    display: none;
+}
+
+@keyframes ctaBlink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+}
+
+/* 出現時のバースト */
+.ex-card.ex-burst {
+    animation: exBurst 1.2s cubic-bezier(0.2, 1.4, 0.4, 1);
+}
+
+@keyframes exBurst {
+    0% {
+        transform: scale(0.6);
+        opacity: 0;
+        filter: brightness(3);
+    }
+
+    55% {
+        transform: scale(1.07);
+        opacity: 1;
+        filter: brightness(1.8);
+    }
+
+    100% {
+        transform: scale(1);
+        filter: brightness(1);
+    }
+}
+
+/* 出現演出：WARNING */
+.ex-warning {
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(10, 0, 20, 0.85);
+    transition: opacity 0.4s ease;
+    animation: warnBg 0.5s steps(2) infinite alternate;
+}
+
+.ex-warning.out {
+    opacity: 0;
+}
+
+@keyframes warnBg {
+    from {
+        background: rgba(10, 0, 20, 0.85);
+    }
+
+    to {
+        background: rgba(60, 0, 20, 0.85);
+    }
+}
+
+.ex-warning-band {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 44px;
+    overflow: hidden;
+    background: repeating-linear-gradient(-45deg, #e0123a, #e0123a 14px, #1a0008 14px, #1a0008 28px);
+    box-shadow: 0 0 20px rgba(224, 18, 58, 0.8);
+}
+
+.ex-warning-band.top {
+    top: 22%;
+}
+
+.ex-warning-band.bottom {
+    bottom: 22%;
+}
+
+.ex-warning-track {
+    display: inline-block;
+    white-space: nowrap;
+    line-height: 44px;
+    font-size: 22px;
+    font-weight: bold;
+    letter-spacing: 0.15em;
+    color: #fff;
+    text-shadow: 0 0 6px #000, 0 0 6px #000;
+    animation: warnMarquee 5s linear infinite;
+}
+
+.ex-warning-band.bottom .ex-warning-track {
+    animation-direction: reverse;
+}
+
+@keyframes warnMarquee {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+.ex-warning-text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+    padding: 0 20px;
+    animation: warnShake 0.12s linear infinite;
+}
+
+.ex-warning-sub {
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 0.4em;
+    color: #ff7a93;
+}
+
+.ex-warning-main {
+    font-family: serif;
+    font-size: 28px;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    color: #fff;
+    text-shadow: 0 0 12px #e0123a, 0 0 28px #e0123a;
+}
+
+@keyframes warnShake {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    25% {
+        transform: translate(2px, -1px);
+    }
+
+    50% {
+        transform: translate(-2px, 1px);
+    }
+
+    75% {
+        transform: translate(1px, 2px);
+    }
+
+    100% {
+        transform: translate(0, 0);
+    }
+}
+
+.ex-flash {
+    position: fixed;
+    inset: 0;
+    z-index: 3001;
+    background: #fff;
+    pointer-events: none;
+    animation: exFlash 0.7s ease-out forwards;
+}
+
+@keyframes exFlash {
+    from {
+        opacity: 0.95;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+/* =========================================
+   EXポップアップ（金×紫の特別仕様）
+========================================= */
+.popup-content.ex-mode {
+    background: radial-gradient(ellipse at 50% 0%, #3b2a8f 0%, #1a1040 55%, #0b0720 100%);
+    border-top: 3px solid #ffd76a;
+    box-shadow: 0 -6px 30px rgba(255, 215, 106, 0.45);
+}
+
+.popup-content.ex-mode .popup-no {
+    color: #ffd76a;
+    letter-spacing: 0.25em;
+    text-shadow: 0 0 8px rgba(255, 215, 106, 0.7);
+}
+
+.popup-content.ex-mode .popup-title {
+    color: #fff;
+    font-family: serif;
+    text-shadow: 0 0 10px rgba(255, 215, 106, 0.6);
+}
+
+.popup-content.ex-mode .popup-close-x {
+    color: #fff;
+}
+
+.popup-content.ex-mode .popup-img {
+    background: #0b0720;
+    border-color: #ffd76a;
+    box-shadow: 0 0 22px rgba(255, 215, 106, 0.7);
+}
+
+.popup-content.ex-mode .info-label {
+    color: #ffd76a;
+    letter-spacing: 0.1em;
+}
+
+.popup-content.ex-mode .story-box {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 215, 106, 0.6);
+    box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.4);
+}
+
+.popup-content.ex-mode .story-box p {
+    color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .ex-card.is-revealed::before,
+    .ex-card.is-revealed .ex-aura,
+    .ex-card.is-revealed .ex-sparkles,
+    .ex-card.is-revealed .ex-inner::after,
+    .ex-cta,
+    .btn-survey.is-unlocked,
+    .btn-survey.is-unlocked::after,
+    .ex-warning,
+    .ex-warning-track,
+    .ex-warning-text {
+        animation: none;
+    }
+}

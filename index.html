@@ -42,6 +42,25 @@
             <div class="stamp-grid" id="grid">
                 <!-- JSで動的に生成されます -->
             </div>
+
+            <!-- EXコンテンツ（7つ解放で出現するラスボス枠） -->
+            <section class="ex-section" id="exSection" aria-label="EXコンテンツ" hidden>
+                <div class="ex-divider">EXTRA STAGE</div>
+                <div class="ex-card is-locked" id="exCard" data-state="locked" role="button" tabindex="0">
+                    <div class="ex-aura"></div>
+                    <div class="ex-inner">
+                        <div class="ex-sparkles"></div>
+                        <div class="ex-badge">EX</div>
+                        <div class="ex-eyebrow" id="exEyebrow">LOCKED</div>
+                        <div class="ex-img-frame">
+                            <img id="exImg" class="ex-img" src="images/favicon.png" alt="">
+                        </div>
+                        <h3 class="ex-title" id="exTitle">？？？？？？</h3>
+                        <p class="ex-sub" id="exSub">7つすべて解放すると、最後の記録が現れる…</p>
+                        <div class="ex-cta" id="exCta">▶ OPEN</div>
+                    </div>
+                </div>
+            </section>
         </article>
 
         <!-- ボタンエリア -->
@@ -51,8 +70,10 @@
                 <span class="btn-sub-text">外部サイトにアクセスします</span>
             </a>
 
-            <a href="https://forms.gle/9RTJ66fP92t5uNCx6" class="btn-outline" target="_blank">
-                <span class="btn-main-text">2040年の記憶を記録する<span class="arrow-icon">↗</span></span>
+            <a id="surveyBtn" class="btn-outline btn-survey is-locked" data-href="https://forms.gle/9RTJ66fP92t5uNCx6"
+                target="_blank" rel="noopener" aria-disabled="true">
+                <span class="btn-main-text">2040年の記憶を記録する<span class="arrow-icon" id="surveyIcon">🔒</span></span>
+                <span class="btn-sub-text" id="surveySub">7つすべて解放すると開放されます</span>
             </a>
         </div>
     </main>
@@ -79,7 +100,7 @@
 
         <div class="popup-info">
             <div class="info-group no-border">
-                <span class="info-label">オーパーツ説明</span>
+                <span class="info-label" id="popLabel">オーパーツ説明</span>
                 <div class="story-box">
                     <p id="popStory"></p>
                 </div>
