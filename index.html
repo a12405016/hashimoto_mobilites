@@ -43,24 +43,24 @@
                 <!-- JSで動的に生成されます -->
             </div>
 
-            <!-- EXコンテンツ（7つ解放で出現するラスボス枠） -->
+            <!-- EXコンテンツ（8つ目）：通常のスタンプと同じ見た目 -->
             <section class="ex-section" id="exSection" aria-label="EXコンテンツ" hidden>
-                <div class="ex-divider">EXTRA STAGE</div>
-                <div class="ex-card is-locked" id="exCard" data-state="locked" role="button" tabindex="0">
-                    <div class="ex-aura"></div>
-                    <div class="ex-inner">
-                        <div class="ex-sparkles"></div>
-                        <div class="ex-badge">EX</div>
-                        <div class="ex-eyebrow" id="exEyebrow">LOCKED</div>
-                        <div class="ex-img-frame">
-                            <img id="exImg" class="ex-img" src="images/favicon.png" alt="">
-                        </div>
-                        <h3 class="ex-title" id="exTitle">？？？？？？</h3>
-                        <p class="ex-sub" id="exSub">7つすべて解放すると、最後の記録が現れる…</p>
-                        <div class="ex-cta" id="exCta">▶ OPEN</div>
-                    </div>
+                <div class="ex-title-label"><span>ー Extra Stage ー</span></div>
+                <div class="stamp-grid ex-grid">
+                    <div class="stamp-item locked" id="exCard" data-state="locked" role="button" tabindex="0"></div>
                 </div>
+                <p class="ex-hint" id="exHint">最後の記録は、まだどこかに眠っている…モビリテスを確認しよう。</p>
+                <button type="button" class="btn-outline ex-cta" id="exCta" hidden>
+                    <span class="btn-main-text">トゥルーエンドを見る</span>
+                </button>
             </section>
+
+            <!-- 「向かわない」を選んだ人だけに表示：選択をやり直すボタン -->
+            <div class="choice-retry" id="choiceRetry" hidden>
+                <button type="button" class="btn-outline retry-btn" id="choiceRetryBtn">
+                    <span class="btn-main-text">選択肢を変更する</span>
+                </button>
+            </div>
         </article>
 
         <!-- ボタンエリア -->
@@ -131,6 +131,15 @@
                 <span class="btn-main-text">閉じる</span>
             </button>
         </div>
+    </div>
+
+    <!-- エンド映像（通常エンド／トゥルーエンド共通） -->
+    <div id="videoOverlay" class="video-overlay" hidden>
+        <video id="endVideo" playsinline webkit-playsinline controls controlsList="nodownload" preload="none"></video>
+        <p id="videoMsg" class="video-msg"></p>
+        <button type="button" id="videoBack" class="btn-outline video-back">
+            <span class="btn-main-text">戻る</span>
+        </button>
     </div>
 
     <script src="archive.js"></script>

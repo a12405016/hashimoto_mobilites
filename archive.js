@@ -19,7 +19,7 @@ const SCULPTURES = [
         image: "images/OOPARTS02_BG.png",
         story: "重量3キログラム以内なら配送可能な無人ドローン。人件費削減に一躍買っており、安全迅速な配送を実現した。衣類・食料品・日用品など、様々な商品が空を飛び交う暮らしが始まった。裏側にはD.B.C.Bの刻印がある。",
         link: "https://www.yamaha-motor.co.jp/mobilites/",
-        audio: "audio/hashimoto2040_talk01_demo.mp3",
+        audio: "audio/hashimoto2040_talk02_demo.mp3",
         audioTitle: "会話記録 02"
     },
     {
@@ -28,43 +28,43 @@ const SCULPTURES = [
         image: "images/hashimoto2040_OOPARTS03_BG.png",
         story: "高性能コンピュータを搭載した眼鏡。目に映る景色を自動で解析し、ユーザーが欲している情報をピックアップして表示する。外国語の翻訳機能に特に需要があり、文字や音声を自動翻訳しリアルタイムで表示してくれる。小さくD.B.C.Bの刻印がある。",
         link: "https://www.yamaha-motor.co.jp/mobilites/",
-        audio: "audio/hashimoto2040_talk01_demo.mp3",
+        audio: "audio/hashimoto2040_talk02_demo.mp3",
         audioTitle: "会話記録 03"
     },
     {
         id: 4,
         name: "AIスマートフォン",
-        image: "images/favicon.png",
+        image: "images/favicon.jpg",
         story: "パートナーAIが搭載されたスマートフォン。パートナーAIとは、自分に関するあらゆる知識や情報を登録したAIマネージャーを所有することができるサービス。どの企業のAIを契約し、育成していくかはユーザー次第。カバー裏にD.B.C.Bの刻印がある。",
         link: "https://www.yamaha-motor.co.jp/mobilites/",
-        audio: "audio/hashimoto2040_talk01_demo.mp3",
+        audio: "audio/hashimoto2040_talk04_demo.mp3",
         audioTitle: "会話記録 04"
     },
     {
         id: 5,
         name: "MSデジタルカルテ",
-        image: "images/favicon.png",
+        image: "images/favicon.jpg",
         story: "メディカルステーション利用時に受け取れるデジタルカルテ。利用者の身体情報や、懸念される病気・怪我などのデータが記載されている。しかしながら医療機関での受診が不要になったということではないので注意が必要。右下にD.B.C.Bのロゴマークがある。",
         link: "https://www.yamaha-motor.co.jp/mobilites/",
-        audio: "audio/hashimoto2040_talk01_demo.mp3",
+        audio: "audio/hashimoto2040_talk05_demo.mp3",
         audioTitle: "会話記録 05"
     },
     {
         id: 6,
         name: "MT乗車カード",
-        image: "images/favicon.png",
+        image: "images/favicon.jpg",
         story: "マイクロタクシー専用の乗車カード。年会費を払って作成可能。マイクロタクシーは決められた走行区間を巡回しており、アプリを使って好きなタイミングで呼ぶことができる。ビジネスで頻繁に利用するなら、乗車カードは持っておくと便利。表面にD.B.C.Bの刻印がある。",
         link: "https://www.yamaha-motor.co.jp/mobilites/",
-        audio: "audio/hashimoto2040_talk01_demo.mp3",
+        audio: "audio/hashimoto2040_talk06_demo.mp3",
         audioTitle: "会話記録 06"
     },
     {
         id: 7,
         name: "未来の橋本の写真",
-        image: "images/favicon.png",
+        image: "images/favicon.jpg",
         story: "2040年の橋本が写った写真。街並みは今と大きく変わっているわけではないが、確かに暮らしやすく、便利な街へと発展していった。写真は紙に印刷されており、昨今では珍しい。D.B.C.Bの刻印はない。",
         link: "https://www.yamaha-motor.co.jp/mobilites/",
-        audio: "audio/hashimoto2040_talk01_demo.mp3",
+        audio: "audio/hashimoto2040_talk07_demo.mp3",
         audioTitle: "会話記録 07"
     }
 ];
@@ -75,18 +75,25 @@ const SCULPTURES = [
 // TODO: name / image / story を本番用の内容に差し替えてください
 const EX_ITEM = {
     id: "EX",
-    name: "時空の特異点",
-    image: "images/favicon.png",
-    story: "7つの記録がすべてそろったとき、時空の修復は完了し、封じられていた最後の記録が姿を現す。それは2040年の橋本と現在をつなぐ、特異点そのもの。ここに辿り着いたあなたは、もう立派な時空の修復者だ。",
-    link: "https://www.yamaha-motor.co.jp/mobilites/"
-    // audio: "audio/xxxx.mp3",   // EXにも音声を付けるときはここに指定
-    // audioTitle: "会話記録 EX"
+    name: "次元境界保全局",
+    image: "images/favicon.jpg",
+    story: "7つの記録がすべてそろったとき、時空の修復は完了し、封じられていた最後の記録が姿を現す。それは2040年の橋本と現在をつなぐ、特異点そのもの。ここに辿り着いたあなたは、真実を知ることになる。",
+    link: "https://www.yamaha-motor.co.jp/mobilites/",
+    audio: "audio/hashimoto2040_talk08_demo.mp3",
+    audioTitle: "会話記録 EX08"
 };
 const EX_KEY = "hashimoto-unlocked-area1-ex";
 
 // 解放済みの彫刻IDを保存するためのキー
 const STORAGE_KEY = "hashimoto-unlocked-area1";
 let unlockedSet = new Set();
+
+// 7つ解放後の選択（"go" = 向かう / "stay" = 向かわない）
+const CHOICE_KEY = STORAGE_KEY + "-choice";
+
+// エンド映像のファイル（TODO: 実際の映像ファイルのパスに差し替えてください）
+const NORMAL_END_VIDEO = "video/normal_end.mp4";   // 「向かわない」を選んだ人に流す通常エンド
+const TRUE_END_VIDEO = "video/true_end.mp4";       // EX解放後の「トゥルーエンドを見る」
 
 // localStorage から読み込み
 function loadUnlocked() {
@@ -270,21 +277,70 @@ function setExState(state) {
     const revealed = state === "revealed";
 
     card.dataset.state = state;
-    card.classList.toggle("is-revealed", revealed);
-    card.classList.toggle("is-locked", !revealed);
-    card.setAttribute("aria-label", revealed ? `EXコンテンツ：${EX_ITEM.name}` : "EXコンテンツ（未解放）");
+    card.className = revealed ? "stamp-item unlocked" : "stamp-item locked";
+    card.setAttribute("aria-label", revealed ? `EX：${EX_ITEM.name}` : "EX（未解放）");
+    card.innerHTML = revealed
+        ? `<span class="stamp-no">EX</span>
+           <img src="${EX_ITEM.image}" class="unlocked-img" alt="${EX_ITEM.name}" onerror="this.style.display='none'">`
+        : `<span class="stamp-no">EX</span>
+           <div class="lock-icon">
+               <img src="images/timeparad2.gif" style="width: 114px; height: auto;" alt="時空の穴のアイコン">
+           </div>`;
 
-    document.getElementById("exImg").src = EX_ITEM.image;
-    document.getElementById("exEyebrow").textContent = revealed ? "FINAL ARCHIVE" : "LOCKED";
-    document.getElementById("exTitle").textContent = revealed ? EX_ITEM.name : "？？？？？？";
-    document.getElementById("exSub").textContent = revealed
-        ? "すべての記録を解放した者だけが辿り着ける、最後の記録。"
-        : "最後の記録は、まだどこかに眠っている…"
-        + "モビリテスを確認しよう。";
+    // 解放後：トゥルーエンドのボタンを表示 / 未解放：ヒントを表示
+    const cta = document.getElementById("exCta");
+    const hint = document.getElementById("exHint");
+    if (cta) cta.hidden = !revealed;
+    if (hint) hint.hidden = revealed;
+}
+
+// EXエリアを見せてよいか（「向かう」を選んだ、またはEXのURLで解放済み）
+function exVisible() {
+    return localStorage.getItem(CHOICE_KEY) === "go" || exUnlocked;
+}
+
+// 「選択肢を変更する」ボタン：7つ揃って「向かわない」を選び、EXがまだ出ていない人にだけ表示
+function updateRetryButton() {
+    const wrap = document.getElementById("choiceRetry");
+    if (!wrap) return;
+    const complete = unlockedSet.size >= TOTAL_ITEMS;
+    const waiting = typeof window.onCompleteClosed === "function";   // 最初の選択待ち
+    const show = complete && !waiting
+        && localStorage.getItem(CHOICE_KEY) === "stay" && !exVisible();
+    wrap.hidden = !show;
+}
+
+// EXエリアを出す（「向かう」を選んだとき）
+function revealExSection() {
+    const section = document.getElementById("exSection");
+    if (!section) return;
+    setExState(exUnlocked ? "revealed" : "locked");
+    section.hidden = false;
+    section.classList.add("ex-appear");
+    section.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+// 選択のやり直し：演出は飛ばして、選択ダイアログだけを再表示する
+function retryChoice() {
+    if (typeof window.showChoiceDialog !== "function") return;
+    window.showChoiceDialog((choice) => {
+        if (choice === "go") {
+            revealExSection();
+            setTimeout(() => showToast("8つ目の時空の穴が現れました"), 600);
+        } else {
+            showToast("選択はそのままです");
+        }
+        updateRetryButton();
+    });
 }
 
 // 7つ揃っているかどうかで、アンケートとEXエリアの表示を切り替える
 function updateExtras(complete, isNew) {
+    updateExtrasCore(complete, isNew);
+    updateRetryButton();
+}
+
+function updateExtrasCore(complete, isNew) {
     const section = document.getElementById("exSection");
 
     if (!complete) {
@@ -301,19 +357,23 @@ function updateExtras(complete, isNew) {
     }
 
     if (isNew) {
-        // コンプリート演出を閉じたあと、やさしくフェードインで出現
+        // 選択（向かう／向かわない）が終わるまで、EXもアンケートも出さない
         section.hidden = true;
         setSurveyState(false, false);
-        window.onCompleteClosed = () => {
+        window.onCompleteClosed = (choice) => {
+            setExState(exUnlocked ? "revealed" : "locked");
             setSurveyState(true, true);
-            section.hidden = false;
-            section.classList.add("ex-appear");
-            section.scrollIntoView({ behavior: "smooth", block: "center" });
+            if (choice === "go" || exUnlocked) {
+                section.hidden = false;
+                section.classList.add("ex-appear");
+                section.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
             setTimeout(() => showToast("アンケートが開放されました！"), 1200);
+            updateRetryButton();
         };
     } else if (typeof window.onCompleteClosed !== "function") {
         setSurveyState(true, false);
-        section.hidden = false;
+        section.hidden = !exVisible();
     }
 }
 
@@ -332,15 +392,79 @@ function unlockEx() {
         return;
     }
 
-    // 7つ揃っている場合：控えめに点灯させる
+    // 選択ダイアログの表示待ちの場合は、選択後にそのまま解放済みで表示される
+    if (typeof window.onCompleteClosed === "function") return;
+
+    const section = document.getElementById("exSection");
     const card = document.getElementById("exCard");
+
+    // 「向かわない」を選んだ後にEXのURLを開いた場合は、ここでエリアを出す
+    if (section.hidden) {
+        localStorage.setItem(CHOICE_KEY, "go");
+        section.hidden = false;
+        section.classList.add("ex-appear");
+    }
+
     card.scrollIntoView({ behavior: "smooth", block: "center" });
     setTimeout(() => {
         setExState("revealed");
-        card.classList.add("ex-unlock");
-        setTimeout(() => card.classList.remove("ex-unlock"), 1900);
-        setTimeout(() => showToast("EXの記録が解放されました！"), 900);
+        const revealedCard = document.getElementById("exCard");
+        revealedCard.classList.add("ex-pop");
+        setTimeout(() => revealedCard.classList.remove("ex-pop"), 700);
+        setTimeout(() => showToast("EXの記録が解放されました！"), 700);
+        updateRetryButton();
     }, 600);
+}
+
+/* =========================================================
+    エンド映像（通常エンド / トゥルーエンド）
+========================================================= */
+let endVideoBack = null;
+
+function playEndVideo(src, onBack) {
+    const ov = document.getElementById("videoOverlay");
+    const v = document.getElementById("endVideo");
+    endVideoBack = onBack || null;
+
+    ov.classList.remove("ended");
+    document.getElementById("videoMsg").textContent = "";
+    ov.hidden = false;
+
+    v.src = src;
+    v.load();
+    const p = v.play();
+    // 自動再生がブロックされた場合は、プレイヤーの再生ボタンで再生できる
+    if (p && p.catch) p.catch(() => { });
+}
+
+function closeEndVideo() {
+    const ov = document.getElementById("videoOverlay");
+    const v = document.getElementById("endVideo");
+
+    v.pause();
+    v.removeAttribute("src");
+    v.load();
+    ov.hidden = true;
+    ov.classList.remove("ended");
+
+    const cb = endVideoBack;
+    endVideoBack = null;
+    if (typeof cb === "function") cb();
+}
+
+function initVideo() {
+    const ov = document.getElementById("videoOverlay");
+    const v = document.getElementById("endVideo");
+    const back = document.getElementById("videoBack");
+    if (!ov || !v || !back) return;
+
+    v.addEventListener("ended", () => ov.classList.add("ended"));
+    v.addEventListener("error", () => {
+        if (!v.getAttribute("src")) return;
+        document.getElementById("videoMsg").textContent = "映像を読み込めませんでした。";
+        ov.classList.add("ended");   // 読み込めない場合も戻れるようにする
+    });
+    back.addEventListener("click", closeEndVideo);
 }
 
 function initExtras() {
@@ -361,6 +485,14 @@ function initExtras() {
             }
         });
     }
+
+    // 「向かわない」を選んだ人向け：選択のやり直し
+    const retryBtn = document.getElementById("choiceRetryBtn");
+    if (retryBtn) retryBtn.addEventListener("click", retryChoice);
+
+    // トゥルーエンド：映像を見たら、ここに戻ってこられる
+    const cta = document.getElementById("exCta");
+    if (cta) cta.addEventListener("click", () => playEndVideo(TRUE_END_VIDEO));
 
     const survey = document.getElementById("surveyBtn");
     if (survey) {
@@ -413,9 +545,8 @@ function renderGrid() {
         progressFill.classList.add("completed");
         if (progressContainer) progressContainer.classList.add("completed");
 
-        const celebratedKey = STORAGE_KEY + "-celebrated";
-        const isNew = localStorage.getItem(celebratedKey) !== "true";
-        if (isNew) localStorage.setItem(celebratedKey, "true");
+        // 選択（向かう／向かわない）が済むまで、演出と選択ダイアログを表示する
+        const isNew = !localStorage.getItem(CHOICE_KEY);
         celebrateCompletion(isNew);
         updateExtras(true, isNew);
     } else {
@@ -431,6 +562,7 @@ window.addEventListener("DOMContentLoaded", () => {
     unlockedSet = loadUnlocked();
     initExtras();
     initAudio();
+    initVideo();
     renderGrid();
 
     // URLパラメータによる解放：?unlock=1〜7（EXは ?unlock=ex または ?unlock=8）
@@ -545,20 +677,28 @@ window.addEventListener("DOMContentLoaded", () => {
     .cx-rp.b { border-color: #BDF2FC; }
     .cx-flash { position: absolute; inset: 0; background: #fff; animation: cxFlash .8s ease-out forwards; pointer-events: none; }
 
-    /* 完了後の文言とボタン */
-    .cx-end {
+    /* 選択ダイアログ（画面中央） */
+    .cx-dlg {
         position: absolute;
         left: 50%;
-        top: 52%;
-        width: min(calc(100% - 48px), 340px);
-        transform: translateX(-50%);
+        top: 50%;
+        width: min(calc(100% - 40px), 340px);
+        transform: translate(-50%, -50%);
+        padding: 24px 20px 20px;
         text-align: center;
+        background: rgba(10, 8, 30, .82);
+        border: 1px solid rgba(189, 242, 252, .55);
+        border-radius: 14px;
+        box-shadow: 0 0 24px rgba(132, 105, 211, .55), inset 0 0 14px rgba(189, 242, 252, .12);
         opacity: 0;
         pointer-events: none;
         z-index: 5;
     }
-    .cx-ov.done .cx-end { opacity: 1; pointer-events: auto; transition: opacity .9s ease 1.2s; }
-    .cx-end p { margin-bottom: 20px; font-size: 13px; line-height: 1.8; text-shadow: 0 1px 4px rgba(0,0,0,.6); }
+    .cx-ov.ask .cx-dlg { opacity: 1; pointer-events: auto; transition: opacity .9s ease; }
+    .cx-ov.ask .cx-t { animation: cxOut .6s ease forwards; }
+    .cx-dlg-t { margin-bottom: 14px; font-size: 15px; font-weight: bold; line-height: 1.8; }
+    .cx-dlg-s { margin-bottom: 20px; font-size: 12px; line-height: 1.8; color: #BDF2FC; }
+    .cx-dlg-btns { display: flex; flex-direction: column; gap: 10px; }
     .cx-btn {
         width: 100%;
         padding: 13px 16px;
@@ -572,6 +712,7 @@ window.addEventListener("DOMContentLoaded", () => {
         box-shadow: 0 4px 10px rgba(0,0,0,.4);
         transition: transform .1s ease;
     }
+    .cx-btn.sub { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.7); box-shadow: none; }
     .cx-btn:active { transform: translateY(2px); }
 
     .stamp-grid.all-cleared .stamp-item.unlocked {
@@ -585,6 +726,7 @@ window.addEventListener("DOMContentLoaded", () => {
         50%  { transform: translate(-3px,1px); text-shadow: -3px 0 #ff2d6f, 3px 0 #2dfff0; }
     }
     @keyframes cxIn { from { opacity: 0; transform: translateY(10px) scale(.95); } }
+    @keyframes cxOut { to { opacity: 0; } }
     @keyframes cxFlash { to { opacity: 0; } }
     @keyframes cxRipple {
         0%   { transform: scale(0); opacity: .9; }
@@ -597,7 +739,10 @@ window.addEventListener("DOMContentLoaded", () => {
     `;
     document.head.appendChild(style);
 
-    function showCompleteOverlay() {
+    // opts.askOnly : 演出を飛ばして選択ダイアログだけを出す（選択のやり直し用）
+    // opts.onChoice: 選択後に呼ぶ関数（省略時は window.onCompleteClosed）
+    function showCompleteOverlay(opts) {
+        opts = opts || {};
         if (document.querySelector(".cx-ov")) return;
 
         const overlay = document.createElement("div");
@@ -606,9 +751,13 @@ window.addEventListener("DOMContentLoaded", () => {
             <div class="cx-crt"></div>
             <div class="cx-t glitch" id="cxText"><small>NO SIGNAL</small><b>時空が途切れている…</b></div>
             <div class="cx-seg">${"<i></i>".repeat(TOTAL_ITEMS)}</div>
-            <div class="cx-end">
-                <p>すべてのスポットを巡りました。<br>2040年の記憶が、すべて解放されました。</p>
-                <button type="button" class="cx-btn">記録を見る</button>
+            <div class="cx-dlg" role="dialog" aria-modal="true" aria-label="8つ目の時空の穴">
+                <p class="cx-dlg-t">8つ目の時空の穴が出現しました。<br>8つ目の時空の穴を閉じに向かいますか？</p>
+                <p class="cx-dlg-s">次元境界保全局はあなたの帰還を命じている....</p>
+                <div class="cx-dlg-btns">
+                    <button type="button" class="cx-btn" data-choice="go">向かう</button>
+                    <button type="button" class="cx-btn sub" data-choice="stay">向かわない</button>
+                </div>
             </div>
         `;
         document.body.appendChild(overlay);
@@ -616,56 +765,78 @@ window.addEventListener("DOMContentLoaded", () => {
         const timers = [];
         const wait = (fn, ms) => timers.push(setTimeout(fn, ms));
         const text = overlay.querySelector("#cxText");
+        if (opts.askOnly) overlay.classList.add("done", "ask");
         const segs = overlay.querySelectorAll(".cx-seg i");
         const GAUGE_START = 900, GAUGE_STEP = 320;
+        const RESTORE_AT = GAUGE_START + segs.length * GAUGE_STEP + 300;
 
-        // ① 信号が途切れている → ② 修復中（ゲージが1つずつ埋まる）
-        wait(() => {
-            text.innerHTML = "<small>RESTORING…</small><b>時空を修復中</b>";
-        }, GAUGE_START);
-        segs.forEach((el, i) => wait(() => el.classList.add("on"), GAUGE_START + i * GAUGE_STEP));
+        if (!opts.askOnly) {
+            // ① 信号が途切れている → ② 修復中（ゲージが1つずつ埋まる）
+            wait(() => {
+                text.innerHTML = "<small>RESTORING…</small><b>時空を修復中</b>";
+            }, GAUGE_START);
+            segs.forEach((el, i) => wait(() => el.classList.add("on"), GAUGE_START + i * GAUGE_STEP));
 
-        // ③ 復旧：フラッシュ → ノイズが消え、水面の波紋が広がる
-        wait(() => {
-            const flash = document.createElement("div");
-            flash.className = "cx-flash";
-            overlay.appendChild(flash);
-            setTimeout(() => flash.remove(), 900);
+            // ③ 復旧：フラッシュ → ノイズが消え、水面の波紋が広がる
+            wait(() => {
+                const flash = document.createElement("div");
+                flash.className = "cx-flash";
+                overlay.appendChild(flash);
+                setTimeout(() => flash.remove(), 900);
 
-            [0, 0.5].forEach((d, i) => {
-                const rp = document.createElement("div");
-                rp.className = "cx-rp" + (i % 2 ? " b" : "");
-                rp.style.animationDelay = d + "s";
-                overlay.appendChild(rp);
-                setTimeout(() => rp.remove(), 3500);
-            });
+                [0, 0.5].forEach((d, i) => {
+                    const rp = document.createElement("div");
+                    rp.className = "cx-rp" + (i % 2 ? " b" : "");
+                    rp.style.animationDelay = d + "s";
+                    overlay.appendChild(rp);
+                    setTimeout(() => rp.remove(), 3500);
+                });
 
-            overlay.classList.add("done");
-            text.className = "cx-t in";
-            text.innerHTML = "<small>SIGNAL RESTORED</small><b>時空、修復完了</b>";
-        }, GAUGE_START + segs.length * GAUGE_STEP + 300);
+                overlay.classList.add("done");
+                text.className = "cx-t in";
+                text.innerHTML = "<small>SIGNAL RESTORED</small><b>時空、修復完了</b>";
+            }, RESTORE_AT);
 
-        function close() {
+            // ④ 修復完了の表示のあと、画面中央に選択ダイアログを出す
+            wait(() => overlay.classList.add("ask"), RESTORE_AT + 2600);
+        }
+
+        // 選択：向かう → そのまま続ける / 向かわない → 通常エンド映像
+        function choose(choice) {
+            localStorage.setItem(CHOICE_KEY, choice);
             timers.forEach(clearTimeout);
             overlay.classList.remove("show");
             setTimeout(() => overlay.remove(), 500);
-            // 演出が閉じたら、アンケート・EXエリアの出現へ
-            if (typeof window.onCompleteClosed === "function") {
-                const cb = window.onCompleteClosed;
+
+            let cb;
+            if (opts.onChoice) {
+                cb = opts.onChoice;
+            } else {
+                cb = window.onCompleteClosed;
                 window.onCompleteClosed = null;
-                setTimeout(cb, 600);
+            }
+            const finish = () => { if (typeof cb === "function") cb(choice); };
+
+            // やり直しで再び「向かわない」を選んだ場合は、映像は流さずに戻す
+            if (choice === "stay" && !opts.askOnly) {
+                setTimeout(() => playEndVideo(NORMAL_END_VIDEO, finish), 500);
+            } else {
+                setTimeout(finish, 600);
             }
         }
-        overlay.querySelector(".cx-btn").addEventListener("click", close);
-        // 演出の途中で閉じてしまわないよう、完了後のみ背景タップでも閉じられる
-        overlay.addEventListener("click", (e) => {
-            if (e.target === overlay && overlay.classList.contains("done")) close();
+        overlay.querySelectorAll("[data-choice]").forEach(btn => {
+            btn.addEventListener("click", () => choose(btn.dataset.choice));
         });
 
         requestAnimationFrame(() => {
             requestAnimationFrame(() => overlay.classList.add("show"));
         });
     }
+
+    // 選択のやり直し用（外から呼べるように公開）
+    window.showChoiceDialog = function (onChoice) {
+        showCompleteOverlay({ askOnly: true, onChoice: onChoice });
+    };
 
     window.celebrateCompletion = function (isNew) {
         const grid = document.getElementById("grid");
