@@ -82,6 +82,10 @@ const EX_ITEM = {
     audio: "audio/hashimoto2040_talk08_demo.mp3",
     audioTitle: "会話記録 EX08"
 };
+// EXの案内文（未解放 / 解放後）
+const EX_HINT_LOCKED = "最後の記録は、まだどこかに眠っている…モビリテスを確認しよう。";
+const EX_HINT_UNLOCKED = "8つ目の記録が解放されました。<br>モビリテスに戻って確認しよう。";
+
 const EX_KEY = "hashimoto-unlocked-area1-ex";
 
 // 解放済みの彫刻IDを保存するためのキー
@@ -287,11 +291,15 @@ function setExState(state) {
                <img src="images/timeparad2.gif" style="width: 114px; height: auto;" alt="時空の穴のアイコン">
            </div>`;
 
-    // 解放後：トゥルーエンドのボタンを表示 / 未解放：ヒントを表示
+    // 解放後：「モビリテスに戻って確認しよう」の案内 + トゥルーエンドのボタン / 未解放：ヒント
     const cta = document.getElementById("exCta");
     const hint = document.getElementById("exHint");
     if (cta) cta.hidden = !revealed;
-    if (hint) hint.hidden = revealed;
+    if (hint) {
+        hint.hidden = false;
+        hint.innerHTML = revealed ? EX_HINT_UNLOCKED : EX_HINT_LOCKED;
+        hint.classList.toggle("is-unlocked", revealed);
+    }
 }
 
 // EXエリアを見せてよいか（「向かう」を選んだ、またはEXのURLで解放済み）
@@ -412,6 +420,7 @@ function unlockEx() {
         revealedCard.classList.add("ex-pop");
         setTimeout(() => revealedCard.classList.remove("ex-pop"), 700);
         setTimeout(() => showToast("EXの記録が解放されました！"), 700);
+        setTimeout(() => showToast("モビリテスに戻って確認しよう"), 3400);
         updateRetryButton();
     }, 600);
 }

@@ -773,6 +773,12 @@ article {
     display: none;
 }
 
+/* 解放後の案内文は、少し目立たせる */
+.ex-hint.is-unlocked {
+    font-size: 12px;
+    font-weight: bold;
+}
+
 .ex-cta {
     margin-top: 20px;
     cursor: pointer;
