@@ -320,7 +320,7 @@ article {
 /* 3段目: 右 */
 
 .stamp-item.unlocked {
-    background-color: #fff;
+    background-color: rgb(39, 0, 77);
 }
 
 .stamp-no {
@@ -543,6 +543,7 @@ article {
     height: 250px;
     object-fit: contain;
     background: transparent;
+    background-color: rgba(39, 0, 77);
     border: 3px solid #50459B;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     border-radius: 4px;

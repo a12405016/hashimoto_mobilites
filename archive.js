@@ -7,7 +7,7 @@ const SCULPTURES = [
     {
         id: 1,
         name: "スマートリング",
-        image: "images/OOPARTS01_BG.png",
+        image: "images/OOPARTS01.png",
         story: "脈拍から口座番号まで、あらゆる情報を記憶できる指輪。リニア乗車時の乗車券情報もそこには収められている。手をかざすだけで改札を通れる優れもの。心拍に異常が見受けられた時、自動で医療機関へ報告してくれる。内側にはD.B.C.Bの刻印がある。",
         link: "https://www.yamaha-motor.co.jp/mobilites/",
         audio: "audio/hashimoto2040_talk01_demo.mp3",
@@ -16,7 +16,7 @@ const SCULPTURES = [
     {
         id: 2,
         name: "配送ドローン",
-        image: "images/OOPARTS02_BG.png",
+        image: "images/OOPARTS02.png",
         story: "重量3キログラム以内なら配送可能な無人ドローン。人件費削減に一躍買っており、安全迅速な配送を実現した。衣類・食料品・日用品など、様々な商品が空を飛び交う暮らしが始まった。裏側にはD.B.C.Bの刻印がある。",
         link: "https://www.yamaha-motor.co.jp/mobilites/",
         audio: "audio/hashimoto2040_talk02_demo.mp3",
@@ -25,16 +25,16 @@ const SCULPTURES = [
     {
         id: 3,
         name: "スマートグラス",
-        image: "images/hashimoto2040_OOPARTS03_BG.png",
+        image: "images/OOPARTS03.png",
         story: "高性能コンピュータを搭載した眼鏡。目に映る景色を自動で解析し、ユーザーが欲している情報をピックアップして表示する。外国語の翻訳機能に特に需要があり、文字や音声を自動翻訳しリアルタイムで表示してくれる。小さくD.B.C.Bの刻印がある。",
         link: "https://www.yamaha-motor.co.jp/mobilites/",
-        audio: "audio/hashimoto2040_talk02_demo.mp3",
+        audio: "audio/hashimoto2040_talk03_demo.mp3",
         audioTitle: "会話記録 03"
     },
     {
         id: 4,
         name: "AIスマートフォン",
-        image: "images/favicon.jpg",
+        image: "images/OOPARTS04.png",
         story: "パートナーAIが搭載されたスマートフォン。パートナーAIとは、自分に関するあらゆる知識や情報を登録したAIマネージャーを所有することができるサービス。どの企業のAIを契約し、育成していくかはユーザー次第。カバー裏にD.B.C.Bの刻印がある。",
         link: "https://www.yamaha-motor.co.jp/mobilites/",
         audio: "audio/hashimoto2040_talk04_demo.mp3",
@@ -43,7 +43,7 @@ const SCULPTURES = [
     {
         id: 5,
         name: "MSデジタルカルテ",
-        image: "images/favicon.jpg",
+        image: "images/OOPARTS05.png",
         story: "メディカルステーション利用時に受け取れるデジタルカルテ。利用者の身体情報や、懸念される病気・怪我などのデータが記載されている。しかしながら医療機関での受診が不要になったということではないので注意が必要。右下にD.B.C.Bのロゴマークがある。",
         link: "https://www.yamaha-motor.co.jp/mobilites/",
         audio: "audio/hashimoto2040_talk05_demo.mp3",
@@ -52,7 +52,7 @@ const SCULPTURES = [
     {
         id: 6,
         name: "MT乗車カード",
-        image: "images/favicon.jpg",
+        image: "images/OOPARTS06.png",
         story: "マイクロタクシー専用の乗車カード。年会費を払って作成可能。マイクロタクシーは決められた走行区間を巡回しており、アプリを使って好きなタイミングで呼ぶことができる。ビジネスで頻繁に利用するなら、乗車カードは持っておくと便利。表面にD.B.C.Bの刻印がある。",
         link: "https://www.yamaha-motor.co.jp/mobilites/",
         audio: "audio/hashimoto2040_talk06_demo.mp3",
@@ -61,7 +61,7 @@ const SCULPTURES = [
     {
         id: 7,
         name: "未来の橋本の写真",
-        image: "images/favicon.jpg",
+        image: "images/OOPARTS07.png",
         story: "2040年の橋本が写った写真。街並みは今と大きく変わっているわけではないが、確かに暮らしやすく、便利な街へと発展していった。写真は紙に印刷されており、昨今では珍しい。D.B.C.Bの刻印はない。",
         link: "https://www.yamaha-motor.co.jp/mobilites/",
         audio: "audio/hashimoto2040_talk07_demo.mp3",
@@ -84,7 +84,7 @@ const EX_ITEM = {
 };
 // EXの案内文（未解放 / 解放後）
 const EX_HINT_LOCKED = "最後の記録は、まだどこかに眠っている…モビリテスを確認しよう。";
-const EX_HINT_UNLOCKED = "8つ目の記録が解放されました。<br>モビリテスに戻って確認しよう。";
+const EX_HINT_UNLOCKED = "8つ目の記録が解放されました。";
 
 const EX_KEY = "hashimoto-unlocked-area1-ex";
 
@@ -617,7 +617,7 @@ window.addEventListener("DOMContentLoaded", () => {
         pointer-events: none;
         transition: opacity 0.4s ease, background-color 1s ease;
         overflow: hidden;
-        color: #fff;
+        color: #ffffff;
     }
     .cx-ov.show { opacity: 1; pointer-events: auto; }
     .cx-ov.done { background: rgba(0, 0, 0, 0.62); }
