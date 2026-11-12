@@ -994,3 +994,483 @@ article {
         animation: none;
     }
 }
+
+/* =========================================
+   トゥルーエンド後：オーパーツ破棄（グレーアウト）
+   ※ タップでのポップアップ・音声再生はそのまま使えます
+========================================= */
+.end-ribbon {
+    position: relative;
+    z-index: 10;
+    margin: 16px 23px 0;
+    padding: 10px 14px;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, .6);
+    border-bottom: 1px solid rgba(255, 255, 255, .6);
+    background: rgba(10, 8, 30, .45);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.end-ribbon[hidden] {
+    display: none;
+}
+
+.end-ribbon-en {
+    display: block;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: .35em;
+    color: #BDF2FC;
+}
+
+.end-ribbon-ja {
+    display: block;
+    margin-top: 4px;
+    font-size: 11px;
+    line-height: 1.6;
+    color: #fff;
+}
+
+.stamp-item.unlocked.discarded {
+    background-color: #2b2b33;
+}
+
+.stamp-item.discarded .unlocked-img {
+    filter: grayscale(1) brightness(.5);
+    animation: discardFade 1.6s ease both;
+}
+
+.stamp-item.discarded .stamp-no {
+    color: rgba(255, 255, 255, .6);
+}
+
+.discard-badge {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 3;
+    transform: translate(-50%, -50%) rotate(-12deg);
+    padding: 3px 8px;
+    border: 2px solid rgba(255, 255, 255, .85);
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: .15em;
+    white-space: nowrap;
+    color: #fff;
+    background: rgba(0, 0, 0, .35);
+    animation: discardStamp .5s cubic-bezier(.2, 1.6, .4, 1) .6s both;
+}
+
+.is-discarded .stamp-grid.all-cleared .stamp-item.unlocked.discarded {
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, .25), 0 4px 10px rgba(0, 0, 0, .5);
+}
+
+.is-discarded .progress-bar-fill {
+    background-color: #9a9aa6;
+    box-shadow: none;
+}
+
+/* ポップアップ（破棄済み） */
+.popup-img-wrapper {
+    position: relative;
+}
+
+.popup-discard-badge {
+    display: none;
+}
+
+.popup-content.is-discarded .popup-img {
+    filter: grayscale(1) brightness(.75);
+    border-color: #77777f;
+}
+
+.popup-content.is-discarded .popup-discard-badge {
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(-12deg);
+    padding: 6px 16px;
+    border: 3px solid #5c5c66;
+    border-radius: 6px;
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: .2em;
+    color: #4a4a52;
+    background: rgba(255, 255, 255, .78);
+}
+
+@keyframes discardFade {
+    from {
+        filter: grayscale(0) brightness(1);
+    }
+}
+
+@keyframes discardStamp {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) rotate(-12deg) scale(1.8);
+    }
+}
+
+/* =========================================
+   体験終了の演出（トゥルーエンドの後）
+========================================= */
+.fin-ov {
+    position: fixed;
+    inset: 0;
+    z-index: 4000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    overflow: hidden;
+    color: #fff;
+    text-align: center;
+    background: radial-gradient(ellipse at 50% 40%, #241a5c 0%, #0b0720 55%, #000 100%);
+    opacity: 0;
+    transition: opacity .8s ease;
+}
+
+.fin-ov.show {
+    opacity: 1;
+}
+
+.fin-scan {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(0deg, rgba(0, 0, 0, .35) 0 1px, transparent 1px 3px);
+}
+
+.fin-rings {
+    position: absolute;
+    left: 50%;
+    top: 38%;
+    pointer-events: none;
+}
+
+.fin-rings i {
+    position: absolute;
+    left: -110px;
+    top: -110px;
+    width: 220px;
+    height: 220px;
+    border: 2px solid rgba(189, 242, 252, .55);
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: finSpin 9s linear infinite;
+}
+
+.fin-rings i:nth-child(2) {
+    left: -150px;
+    top: -150px;
+    width: 300px;
+    height: 300px;
+    border-color: rgba(181, 138, 255, .45);
+    border-left-color: transparent;
+    animation-duration: 14s;
+    animation-direction: reverse;
+}
+
+.fin-rings i:nth-child(3) {
+    left: -80px;
+    top: -80px;
+    width: 160px;
+    height: 160px;
+    border-color: rgba(189, 242, 252, .3);
+    border-bottom-color: transparent;
+    animation-duration: 6s;
+}
+
+.fin-inner {
+    position: relative;
+    width: min(100%, 340px);
+}
+
+.fin-inner>* {
+    opacity: 0;
+}
+
+.fin-ov.show .fin-inner>* {
+    animation: finIn 1.2s ease both;
+}
+
+.fin-a {
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: .45em;
+    color: #BDF2FC;
+}
+
+.fin-b {
+    display: block;
+    margin-top: 10px;
+    font-family: serif;
+    font-size: 34px;
+    letter-spacing: .2em;
+    text-shadow: 0 0 16px rgba(181, 138, 255, .9);
+}
+
+.fin-c {
+    margin-top: 22px;
+    font-size: 13px;
+    line-height: 2;
+}
+
+.fin-line {
+    display: block;
+    width: 120px;
+    height: 1px;
+    margin: 28px auto 22px;
+    background: rgba(255, 255, 255, .6);
+}
+
+.fin-d {
+    font-family: serif;
+    font-size: 17px;
+    letter-spacing: .15em;
+}
+
+.fin-e {
+    margin-top: 10px;
+    font-size: 13px;
+    line-height: 1.9;
+    color: #BDF2FC;
+}
+
+.fin-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 30px;
+}
+
+.fin-btn {
+    border: 2px solid #50459B;
+    cursor: pointer;
+    font-family: inherit;
+}
+
+.fin-btn.sub {
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, .7);
+    box-shadow: none;
+}
+
+.fin-ov.show .fin-a {
+    animation-delay: .4s;
+}
+
+.fin-ov.show .fin-b {
+    animation-delay: 1.0s;
+}
+
+.fin-ov.show .fin-c {
+    animation-delay: 2.2s;
+}
+
+.fin-ov.show .fin-line {
+    animation-delay: 3.6s;
+}
+
+.fin-ov.show .fin-d {
+    animation-delay: 4.2s;
+}
+
+.fin-ov.show .fin-e {
+    animation-delay: 4.8s;
+}
+
+.fin-ov.show .fin-btns {
+    animation-delay: 6.0s;
+}
+
+@keyframes finIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+        filter: blur(4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+        filter: none;
+    }
+}
+
+@keyframes finSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .fin-rings i,
+    .stamp-item.discarded .unlocked-img,
+    .discard-badge {
+        animation: none;
+    }
+
+    .fin-ov.show .fin-inner>* {
+        animation-duration: .01s;
+    }
+}
+
+/* EX（8つ目）の破棄表示 */
+.ex-grid .stamp-item.unlocked.discarded {
+    background-color: #2b2b33;
+}
+
+.popup-content.ex-mode.is-discarded .popup-img {
+    filter: grayscale(1) brightness(.6);
+    border-color: rgba(160, 160, 170, .6);
+    box-shadow: none;
+}
+
+.popup-content.ex-mode.is-discarded .popup-discard-badge {
+    color: #e6e6ea;
+    border-color: #c9c9d1;
+    background: rgba(20, 20, 26, .78);
+}
+
+/* =========================================
+   破棄済み：テレビの砂嵐のようなざらつき
+========================================= */
+.stamp-item.discarded::before,
+.stamp-item.discarded::after,
+.popup-content.is-discarded .popup-img-wrapper::before,
+.popup-content.is-discarded .popup-img-wrapper::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* 砂嵐（ノイズ） */
+.stamp-item.discarded::before,
+.popup-content.is-discarded .popup-img-wrapper::before {
+    inset: -50%;
+    opacity: .55;
+    mix-blend-mode: screen;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='1.15' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    background-size: 160px 160px;
+    animation: tvStatic 1.2s steps(6) infinite;
+    animation: tvStaticBg 1.2s steps(6) infinite;
+}
+
+/* 走査線 + 流れるノイズの帯 */
+.stamp-item.discarded::after,
+.popup-content.is-discarded .popup-img-wrapper::after {
+    inset: 0;
+    background:
+        linear-gradient(to bottom, transparent 0%, rgba(255, 255, 255, .22) 48%, rgba(255, 255, 255, .05) 56%, transparent 62%) 0 0 / 100% 300% no-repeat,
+        repeating-linear-gradient(to bottom, rgba(0, 0, 0, .35) 0 1px, transparent 1px 3px);
+    animation: tvRoll 9.0s linear infinite;
+}
+
+/* 映像がときどき揺れる */
+.stamp-item.discarded .unlocked-img {
+    animation: discardFade 1.6s ease both, tvJitter 4s steps(1) infinite;
+}
+
+/* ポップアップ画像の上だけにかける（画像サイズ 250px に合わせる） */
+.popup-content.is-discarded .popup-img-wrapper {
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.popup-content.is-discarded .popup-img-wrapper::before {
+    inset: auto;
+    left: calc(50% - 125px);
+    top: 0;
+    width: 250px;
+    height: 250px;
+    background-position: 0 0;
+}
+
+.popup-content.is-discarded .popup-img-wrapper::after {
+    left: calc(50% - 125px);
+    right: auto;
+    width: 250px;
+    height: 250px;
+}
+
+.popup-content.is-discarded .popup-img {
+    animation: tvJitter 4s steps(1) infinite;
+}
+
+.popup-content.is-discarded .popup-discard-badge {
+    z-index: 3;
+}
+
+@keyframes tvStatic {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    25% {
+        transform: translate(-6%, 4%);
+    }
+
+    50% {
+        transform: translate(4%, -5%);
+    }
+
+    75% {
+        transform: translate(-3%, -2%);
+    }
+
+    100% {
+        transform: translate(5%, 3%);
+    }
+}
+
+@keyframes tvRoll {
+    from {
+        background-position: 0 -100%, 0 0;
+    }
+
+    to {
+        background-position: 0 200%, 0 0;
+    }
+}
+
+@keyframes tvJitter {
+
+    0%,
+    86%,
+    100% {
+        transform: none;
+    }
+
+    88% {
+        transform: translateX(-3px) skewX(-4deg);
+    }
+
+    90% {
+        transform: translateX(2px);
+    }
+
+    92% {
+        transform: translateX(-1px) skewX(3deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .stamp-item.discarded::before,
+    .stamp-item.discarded::after,
+    .popup-content.is-discarded .popup-img-wrapper::before,
+    .popup-content.is-discarded .popup-img-wrapper::after,
+    .stamp-item.discarded .unlocked-img,
+    .popup-content.is-discarded .popup-img {
+        animation: none;
+    }
+}

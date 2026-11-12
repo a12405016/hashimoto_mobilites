@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>2040年橋本会話記録</title>
+    <meta name="robots" content="noindex">
+    <meta name="description" content="2040年橋本会話記録 オープニング">
+    <link rel="icon" type="image/png" href="images/jiku.png">
+    <link rel="stylesheet" href="archive.css">
+    <style>
+        /* =========================================
+           オープニング専用
+        ========================================= */
+        body.op-body {
+            min-height: 100vh;
+            min-height: 100dvh;
+            overflow: hidden;
+        }
+
+        .op-stage {
+            position: fixed;
+            inset: 0;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .op-frame {
+            position: relative;
+            width: min(100%, var(--content-width));
+            height: 100%;
+            background: #000;
+            overflow: hidden;
+        }
+
+        .op-video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: #000;
+            transition: filter 1.2s ease, opacity 1.2s ease;
+        }
+
+        /* 終了後は映像を少し暗くして、ボタンを見やすく */
+        .op-frame.ended .op-video {
+            opacity: 0;
+        }
+
+        /* 終了後の背景（映像の最後と同じ「次元境界保全局」と回転する輪） */
+        .op-endvis {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(ellipse at 50% 50%, #10294d 0%, #03060f 75%);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1.2s ease;
+        }
+
+        .op-frame.ended .op-endvis {
+            opacity: 1;
+        }
+
+        .op-endvis b {
+            position: relative;
+            font-family: serif;
+            font-size: 26px;
+            font-weight: normal;
+            letter-spacing: .14em;
+            text-shadow: 0 0 12px rgba(111, 227, 255, .8);
+            margin-top: -150px;
+        }
+
+        .op-endvis small {
+            position: relative;
+            margin-top: 10px;
+            font-size: 8px;
+            letter-spacing: .25em;
+            color: #6fe3ff;
+        }
+
+        .op-endvis i {
+            position: absolute;
+            left: 50%;
+            top: calc(50% - 100px);
+            width: 230px;
+            height: 230px;
+            margin: -115px;
+            border: 2px solid rgba(111, 227, 255, .8);
+            border-right-color: transparent;
+            border-radius: 50%;
+            animation: opSpin 8s linear infinite;
+        }
+
+        .op-endvis i:nth-of-type(2) {
+            width: 196px;
+            height: 196px;
+            margin: -98px;
+            border-color: rgba(47, 165, 154, .9);
+            border-left-color: transparent;
+            animation-duration: 11s;
+            animation-direction: reverse;
+        }
+
+        .op-endvis i:nth-of-type(3) {
+            width: 164px;
+            height: 164px;
+            margin: -82px;
+            border-color: rgba(111, 227, 255, .6);
+            border-bottom-color: transparent;
+            animation-duration: 6s;
+        }
+
+        @keyframes opSpin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* --- 開始前の画面（音声つき再生のため、最初にタップしてもらう） --- */
+        .op-intro {
+            position: absolute;
+            inset: 0;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            padding: 0 28px;
+            text-align: center;
+            background: radial-gradient(ellipse at 50% 45%, #10294d 0%, #03060f 75%);
+            transition: opacity .8s ease;
+        }
+
+        .op-intro.hide {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .op-intro small {
+            font-size: 11px;
+            letter-spacing: .4em;
+            color: #6fe3ff;
+        }
+
+        .op-intro h1 {
+            font-family: serif;
+            font-size: 24px;
+            letter-spacing: .12em;
+            text-shadow: 0 0 14px rgba(111, 227, 255, .7);
+        }
+
+        .op-intro p {
+            font-size: 12px;
+            line-height: 1.9;
+            color: rgba(255, 255, 255, .85);
+        }
+
+        .op-signal {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            margin-right: 8px;
+            border-radius: 50%;
+            background: #ff4f6e;
+            box-shadow: 0 0 8px #ff4f6e;
+            animation: opBlink 1s steps(2) infinite;
+            vertical-align: middle;
+        }
+
+        .op-btn {
+            width: min(100%, 280px);
+            margin-top: 10px;
+            border: 2px solid #50459B;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        .op-note {
+            font-size: 10px !important;
+            color: rgba(255, 255, 255, .6) !important;
+        }
+
+        /* --- 再生中：スキップ --- */
+        .op-skip {
+            position: absolute;
+            right: 14px;
+            bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+            z-index: 2;
+            padding: 7px 14px;
+            border: 1px solid rgba(255, 255, 255, .55);
+            border-radius: 20px;
+            background: rgba(0, 0, 0, .35);
+            color: #fff;
+            font-size: 11px;
+            letter-spacing: .15em;
+            font-family: inherit;
+            cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .5s ease;
+        }
+
+        .op-frame.playing .op-skip {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* --- 終了後：任務開始 --- */
+        .op-end {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: calc(48px + env(safe-area-inset-bottom, 0px));
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            padding: 0 28px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(16px);
+            pointer-events: none;
+            transition: opacity .9s ease, transform .9s ease;
+        }
+
+        .op-frame.ended .op-end {
+            opacity: 1;
+            transform: none;
+            pointer-events: auto;
+        }
+
+        .op-end-lead {
+            font-size: 12px;
+            line-height: 1.9;
+            letter-spacing: .1em;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, .8);
+        }
+
+        .op-start {
+            width: min(100%, 300px);
+            border: 2px solid #50459B;
+            animation: opPulse 2s ease-in-out infinite;
+        }
+
+        .op-start .btn-main-text {
+            font-size: 16px;
+            letter-spacing: .12em;
+        }
+
+        .op-replay {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, .75);
+            font-size: 11px;
+            letter-spacing: .12em;
+            text-decoration: underline;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        @keyframes opBlink {
+            50% {
+                opacity: .2;
+            }
+        }
+
+        @keyframes opPulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 2px #9152de, 0 0 12px rgba(144, 34, 183, .6), 0 4px 10px rgba(0, 0, 0, .4);
+            }
+
+            50% {
+                box-shadow: 0 0 0 2px #9152de, 0 0 26px rgb(95, 48, 175), 0 4px 10px rgba(0, 0, 0, .4);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            .op-start,
+            .op-signal,
+            .op-endvis i {
+                animation: none;
+            }
+        }
+    </style>
+</head>
+
+<body class="op-body">
+    <!-- CRT背景エフェクト（アーカイブと共通） -->
+    <div class="crt-bg">
+        <div class="fx fx-dots"></div>
+        <div class="fx fx-scan"></div>
+        <div class="fx fx-roll"></div>
+        <div class="fx fx-noise"></div>
+        <div class="fx fx-vignette"></div>
+    </div>
+
+    <div class="op-stage">
+        <div class="op-frame" id="opFrame">
+            <video class="op-video" id="opVideo" src="video/op_2040hashimoto.mp4" playsinline webkit-playsinline
+                preload="auto"></video>
+
+            <div class="op-endvis" aria-hidden="true">
+                <i></i><i></i><i></i>
+                <b>次元境界保全局</b>
+                <small>DIMENSIONAL BOUNDARY CONSERVATION BUREAU</small>
+            </div>
+
+            <!-- ① 開始前 -->
+            <div class="op-intro" id="opIntro">
+                <small>D.B.C.B / SECURE CHANNEL</small>
+                <h1>2040年橋本会話記録</h1>
+                <p><span class="op-signal"></span>次元境界保全局から<br>新人職員のあなたへ通信が届いています。</p>
+                <button type="button" class="btn-outline op-btn" id="opPlay">
+                    <span class="btn-main-text">通信を開始する</span>
+                </button>
+                <p class="op-note">※ 音声が流れます。音量にご注意ください。</p>
+            </div>
+
+            <!-- ② 再生中 -->
+            <button type="button" class="op-skip" id="opSkip">SKIP ▶▶</button>
+
+            <!-- ③ 終了後 -->
+            <div class="op-end" id="opEnd">
+                <p class="op-end-lead">デバイスのナビゲーションにしたがって、<br>任務を遂行しよう。</p>
+                <a href="https://app.mobilites.ashibi.jp/201/index.html" class="btn-outline op-start">
+                    <span class="btn-main-text">任務を開始する</span>
+                </a>
+                <button type="button" class="op-replay" id="opReplay">もう一度見る</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            const frame = document.getElementById("opFrame");
+            const video = document.getElementById("opVideo");
+            const intro = document.getElementById("opIntro");
+
+            function play() {
+                frame.classList.remove("ended");
+                frame.classList.add("playing");
+                intro.classList.add("hide");
+                try { video.currentTime = 0; } catch (e) { }
+                const p = video.play();
+                // 再生できなかった場合も、任務開始ボタンへ進めるようにする
+                if (p && p.catch) p.catch(finish);
+            }
+
+            function finish() {
+                video.pause();
+                intro.classList.add("hide");
+                frame.classList.remove("playing");
+                frame.classList.add("ended");
+            }
+
+            document.getElementById("opPlay").addEventListener("click", play);
+            document.getElementById("opReplay").addEventListener("click", play);
+            document.getElementById("opSkip").addEventListener("click", () => {
+                finish();
+            });
+            video.addEventListener("ended", finish);
+            video.addEventListener("error", finish);
+        })();
+    </script>
+</body>
+
+</html>

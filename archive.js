@@ -85,6 +85,7 @@ const EX_ITEM = {
 // EXの案内文（未解放 / 解放後）
 const EX_HINT_LOCKED = "最後の記録は、まだどこかに眠っている…モビリテスを確認しよう。";
 const EX_HINT_UNLOCKED = "8つ目の記録が解放されました。";
+const EX_HINT_DISCARDED = "オーパーツはすべて破棄されました。<br>記録はアーカイブとして閲覧できます。";
 
 const EX_KEY = "hashimoto-unlocked-area1-ex";
 
@@ -98,6 +99,10 @@ const CHOICE_KEY = STORAGE_KEY + "-choice";
 // エンド映像のファイル（TODO: 実際の映像ファイルのパスに差し替えてください）
 const NORMAL_END_VIDEO = "video/normal_end.mp4";   // 「向かわない」を選んだ人に流す通常エンド
 const TRUE_END_VIDEO = "video/true_end.mp4";       // EX解放後の「トゥルーエンドを見る」
+
+// トゥルーエンド後：オーパーツを全て破棄した状態（アーカイブとして閲覧・音声再生は可能）
+const DISCARD_KEY = STORAGE_KEY + "-discarded";
+let isDiscarded = localStorage.getItem(DISCARD_KEY) === "true";
 
 // localStorage から読み込み
 function loadUnlocked() {
@@ -134,6 +139,12 @@ function openPopup(id) {
     document.getElementById("popStory").textContent = item.story;
     document.getElementById("popLink").href = item.link;
     setupAudio(item);
+
+    // 破棄後もアーカイブとして閲覧できる（見た目だけグレーアウト）
+    // EX（8つ目）も含めて、破棄後はグレーアウト表示
+    const discardedView = isDiscarded;
+    document.getElementById("popup").classList.toggle("is-discarded", discardedView);
+    if (discardedView) document.getElementById("popLabel").textContent = isEx ? "最後の記録（アーカイブ）" : "オーパーツ説明（アーカイブ）";
 
     document.getElementById("popupOverlay").classList.add("show");
     document.getElementById("popup").classList.add("show");
@@ -281,11 +292,13 @@ function setExState(state) {
     const revealed = state === "revealed";
 
     card.dataset.state = state;
-    card.className = revealed ? "stamp-item unlocked" : "stamp-item locked";
+    const discarded = revealed && isDiscarded;
+    card.className = revealed ? "stamp-item unlocked" + (discarded ? " discarded" : "") : "stamp-item locked";
     card.setAttribute("aria-label", revealed ? `EX：${EX_ITEM.name}` : "EX（未解放）");
     card.innerHTML = revealed
         ? `<span class="stamp-no">EX</span>
-           <img src="${EX_ITEM.image}" class="unlocked-img" alt="${EX_ITEM.name}" onerror="this.style.display='none'">`
+           <img src="${EX_ITEM.image}" class="unlocked-img" alt="${EX_ITEM.name}" onerror="this.style.display='none'">
+           ${discarded ? '<span class="discard-badge">破棄済</span>' : ""}`
         : `<span class="stamp-no">EX</span>
            <div class="lock-icon">
                <img src="images/timeparad2.gif" style="width: 114px; height: auto;" alt="時空の穴のアイコン">
@@ -294,10 +307,13 @@ function setExState(state) {
     // 解放後：「モビリテスに戻って確認しよう」の案内 + トゥルーエンドのボタン / 未解放：ヒント
     const cta = document.getElementById("exCta");
     const hint = document.getElementById("exHint");
-    if (cta) cta.hidden = !revealed;
+    if (cta) {
+        cta.hidden = !revealed;
+        cta.querySelector(".btn-main-text").textContent = isDiscarded ? "トゥルーエンドをもう一度見る" : "トゥルーエンドを見る";
+    }
     if (hint) {
         hint.hidden = false;
-        hint.innerHTML = revealed ? EX_HINT_UNLOCKED : EX_HINT_LOCKED;
+        hint.innerHTML = revealed ? (isDiscarded ? EX_HINT_DISCARDED : EX_HINT_UNLOCKED) : EX_HINT_LOCKED;
         hint.classList.toggle("is-unlocked", revealed);
     }
 }
@@ -429,11 +445,13 @@ function unlockEx() {
     エンド映像（通常エンド / トゥルーエンド）
 ========================================================= */
 let endVideoBack = null;
+let endVideoOpts = null;   // { onFinish } を渡すと、映像の終了後に「戻る」ではなくその処理へ進む
 
-function playEndVideo(src, onBack) {
+function playEndVideo(src, onBack, opts) {
     const ov = document.getElementById("videoOverlay");
     const v = document.getElementById("endVideo");
     endVideoBack = onBack || null;
+    endVideoOpts = opts || null;
 
     ov.classList.remove("ended");
     document.getElementById("videoMsg").textContent = "";
@@ -461,15 +479,28 @@ function closeEndVideo() {
     if (typeof cb === "function") cb();
 }
 
+// 映像が終わった（または読み込めなかった）ときに onFinish があれば実行する
+function handleVideoDone() {
+    if (!endVideoOpts || typeof endVideoOpts.onFinish !== "function") return false;
+    const fn = endVideoOpts.onFinish;
+    endVideoOpts = null;
+    closeEndVideo();
+    fn();
+    return true;
+}
+
 function initVideo() {
     const ov = document.getElementById("videoOverlay");
     const v = document.getElementById("endVideo");
     const back = document.getElementById("videoBack");
     if (!ov || !v || !back) return;
 
-    v.addEventListener("ended", () => ov.classList.add("ended"));
+    v.addEventListener("ended", () => {
+        if (!handleVideoDone()) ov.classList.add("ended");
+    });
     v.addEventListener("error", () => {
         if (!v.getAttribute("src")) return;
+        if (handleVideoDone()) return;
         document.getElementById("videoMsg").textContent = "映像を読み込めませんでした。";
         ov.classList.add("ended");   // 読み込めない場合も戻れるようにする
     });
@@ -501,7 +532,7 @@ function initExtras() {
 
     // トゥルーエンド：映像を見たら、ここに戻ってこられる
     const cta = document.getElementById("exCta");
-    if (cta) cta.addEventListener("click", () => playEndVideo(TRUE_END_VIDEO));
+    if (cta) cta.addEventListener("click", startTrueEnd);
 
     const survey = document.getElementById("surveyBtn");
     if (survey) {
@@ -514,6 +545,69 @@ function initExtras() {
     }
 }
 
+/* =========================================================
+    トゥルーエンド：オーパーツの破棄 → 終了演出
+========================================================= */
+function startTrueEnd() {
+    playEndVideo(TRUE_END_VIDEO, null, { onFinish: showFinale });
+    // 映像を見ている間に、裏でオーパーツを破棄した状態へ切り替える
+    if (!isDiscarded) setTimeout(() => setDiscarded(true), 400);
+}
+
+function setDiscarded(on) {
+    isDiscarded = on;
+    if (on) localStorage.setItem(DISCARD_KEY, "true");
+    else localStorage.removeItem(DISCARD_KEY);
+    renderGrid();
+}
+
+// 見出し・案内などを破棄後の表示に切り替える
+function applyDiscardUI() {
+    document.body.classList.toggle("is-discarded", isDiscarded);
+    const title = document.querySelector(".collection-title");
+    if (title) title.textContent = isDiscarded ? "オーパーツ破棄済み" : "時空の修復";
+    const ribbon = document.getElementById("endRibbon");
+    if (ribbon) ribbon.hidden = !isDiscarded;
+    const exCard = document.getElementById("exCard");
+    if (exCard) setExState(exCard.dataset.state === "revealed" ? "revealed" : "locked");
+}
+
+function showFinale() {
+    if (document.querySelector(".fin-ov")) return;
+    const surveyHref = (document.getElementById("surveyBtn") || {}).dataset?.href || "#";
+    const ov = document.createElement("div");
+    ov.className = "fin-ov";
+    ov.setAttribute("role", "dialog");
+    ov.setAttribute("aria-modal", "true");
+    ov.setAttribute("aria-label", "体験終了");
+    ov.innerHTML = `
+        <div class="fin-scan"></div>
+        <div class="fin-rings"><i></i><i></i><i></i></div>
+        <div class="fin-inner">
+            <small class="fin-a">MISSION COMPLETE</small>
+            <b class="fin-b">任務完了</b>
+            <p class="fin-c">8つのオーパーツは、すべて破棄されました。<br>時空の裂け目は閉じられ、<br>あなたの任務はここで終わります。</p>
+            <span class="fin-line"></span>
+            <p class="fin-d">2040年橋本会話記録</p>
+            <p class="fin-e">体験は以上となります。<br>ご参加いただき、ありがとうございました。</p>
+            <div class="fin-btns">
+                <a class="btn-outline fin-btn" href="${surveyHref}" target="_blank" rel="noopener">
+                    <span class="btn-main-text">アンケートに回答する<span class="arrow-icon">↗</span></span>
+                </a>
+                <button type="button" class="btn-outline fin-btn sub" id="finClose">
+                    <span class="btn-main-text">アーカイブを見る</span>
+                </button>
+            </div>
+        </div>`;
+    document.body.appendChild(ov);
+    requestAnimationFrame(() => requestAnimationFrame(() => ov.classList.add("show")));
+    ov.querySelector("#finClose").addEventListener("click", () => {
+        ov.classList.remove("show");
+        setTimeout(() => ov.remove(), 600);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+}
+
 function renderGrid() {
     const grid = document.getElementById("grid");
     grid.innerHTML = "";
@@ -523,11 +617,12 @@ function renderGrid() {
         const itemDiv = document.createElement("div");
 
         if (isUnlocked) {
-            itemDiv.className = "stamp-item unlocked";
+            itemDiv.className = "stamp-item unlocked" + (isDiscarded ? " discarded" : "");
             itemDiv.onclick = () => openPopup(s.id);
             itemDiv.innerHTML = `
                 <span class="stamp-no">No.${s.id}</span>
                 <img src="${s.image}" class="unlocked-img" alt="${s.name}" onerror="this.style.display='none'">
+                ${isDiscarded ? '<span class="discard-badge">破棄済</span>' : ""}
             `;
         } else {
             itemDiv.className = "stamp-item locked";
@@ -564,6 +659,8 @@ function renderGrid() {
         clearCompletionEffect();
         updateExtras(false, false);
     }
+
+    applyDiscardUI();
 }
 
 // 初期化処理
@@ -579,6 +676,12 @@ window.addEventListener("DOMContentLoaded", () => {
     const raw = (urlParams.get("unlock") || "").trim().toLowerCase();
 
     if (raw) {
+        // 体験のリセット（スタッフの動作確認用）：?unlock=reset
+        if (raw === "reset") {
+            [STORAGE_KEY, CHOICE_KEY, EX_KEY, DISCARD_KEY].forEach(k => localStorage.removeItem(k));
+            window.location.replace(window.location.pathname);
+            return;
+        }
         if (raw === "ex" || raw === String(TOTAL_ITEMS + 1)) {
             setTimeout(unlockEx, 300);
         } else {
