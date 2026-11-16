@@ -963,3 +963,39 @@ window.addEventListener("DOMContentLoaded", () => {
         if (grid) grid.classList.remove("all-cleared");
     };
 })();
+/* =========================================================
+    タップ時のSE（解放済みのもの・ボタンだけ鳴らす）
+========================================================= */
+(function () {
+    const SE_SRC = "audio/select_botton.mp3";
+    const SE_VOLUME = 0.6;   // 音量（0〜1）
+
+    // SEを鳴らす対象
+    const SE_TARGETS = [
+        ".stamp-item.unlocked",   // 解放済みのオーパーツ（No.1〜7・EX）
+        ".btn-outline",           // 各種ボタン（公式サイト・閉じる・トゥルーエンド など）
+        ".cx-btn",                // 「向かう／向かわない」
+        ".popup-close-x"          // ポップアップの ✕
+    ].join(",");
+
+    const se = new Audio(SE_SRC);
+    se.preload = "auto";
+    se.volume = SE_VOLUME;
+
+    function playSE() {
+        try {
+            se.currentTime = 0;
+            const p = se.play();
+            if (p && p.catch) p.catch(() => { });
+        } catch (e) { }
+    }
+
+    // 画面全体のタップを監視して、対象のときだけ鳴らす
+    document.addEventListener("click", (e) => {
+        const el = e.target.closest(SE_TARGETS);
+        if (!el) return;
+        // 未解放のもの（ロック中のオーパーツ・EX・アンケート）は鳴らさない
+        if (el.classList.contains("locked") || el.classList.contains("is-locked")) return;
+        playSE();
+    }, true);
+})();
